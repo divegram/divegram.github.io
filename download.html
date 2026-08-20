@@ -1,11 +1,160 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="utf-8">
-  <title>divegram — скачать</title>
-  <meta http-equiv="refresh" content="0; url=/download">
-  <link rel="canonical" href="/download">
-  <script>location.replace('/download')</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Скачать — Divegram</title>
+  <meta name="description" content="Скачай Divegram — кастомный клиент Telegram. Сейчас доступен Android, iOS и Windows в разработке.">
+  <link rel="icon" type="image/svg+xml" href="/img/logo.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;800&family=Manrope:wght@300;400;500;600;700;800&family=Marck+Script&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
 </head>
-<body>переходим на <a href="/download">/download</a></body>
+<body>
+
+  <!-- scroll progress -->
+  <div class="progress" id="progress" aria-hidden="true"></div>
+
+  <!-- ambient glow -->
+  <div class="bg-glow" aria-hidden="true"></div>
+  <div class="grain" aria-hidden="true"></div>
+
+  <!-- navbar -->
+  <header class="nav" id="nav">
+    <a href="/" class="nav__logo" data-hover>
+      <span class="nav__logo-mark"><img src="/img/logo.svg" alt="" class="nav__logo-img" onerror="this.remove()"></span>
+      <span class="nav__logo-text">divegram</span>
+    </a>
+    <nav class="nav__links">
+      <a href="/#about" class="nav__link" data-hover>о проекте</a>
+      <a href="/#features" class="nav__link" data-hover>возможности</a>
+      <a href="/download" class="nav__link" data-hover>скачать</a>
+      <a href="/faq" class="nav__link" data-hover>faq</a>
+    </nav>
+    <div class="nav__actions">
+      <a href="https://t.me/divegram" target="_blank" rel="noopener" class="btn btn--ghost btn--sm" data-hover>тгк клиента</a>
+      <a href="/download" class="btn btn--solid btn--sm" data-hover>скачать</a>
+      <button class="nav__burger" id="burger" aria-label="открыть меню" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- mobile menu -->
+  <div class="mobile-menu" id="mobileMenu">
+    <nav class="mobile-menu__links">
+      <a href="/#about" class="mobile-menu__link">о проекте</a>
+      <a href="/#features" class="mobile-menu__link">возможности</a>
+      <a href="/download" class="mobile-menu__link">скачать</a>
+      <a href="/faq" class="mobile-menu__link">faq</a>
+      <a href="https://t.me/divegram" target="_blank" rel="noopener" class="mobile-menu__link mobile-menu__link--btn">тгк клиента</a>
+    </nav>
+  </div>
+
+  <!-- page hero -->
+  <section class="page-hero">
+    <div class="page-hero__orb page-hero__orb--1" aria-hidden="true"></div>
+    <div class="page-hero__orb page-hero__orb--2" aria-hidden="true"></div>
+    <span class="hero__badge" data-reveal>
+      <span class="hero__badge-dot"></span>
+      android · v0.1.0 · альфа
+    </span>
+    <p class="section-tag" data-reveal>вперёд</p>
+    <h1 class="section-title page-hero__title" data-reveal>скачай <em>divegram</em></h1>
+    <p class="page-hero__subtitle" data-reveal>
+      выбери свою платформу. сейчас полностью готов android —<br>
+      ios и windows в разработке.
+    </p>
+  </section>
+
+  <!-- platforms -->
+  <section class="platforms">
+    <article class="platform" data-card>
+      <div class="platform__icon" data-hover>
+        <svg viewBox="0 0 24 24" fill="currentColor" stroke="none">
+          <path d="M17.523 15.3414c-.5511 0-.9993-.4486-.9993-.9993s.4482-.9993.9993-.9993c.5511 0 .9993.4486.9993.9993s-.4482.9993-.9993.9993m-11.046 0c-.5511 0-.9993-.4486-.9993-.9993s.4482-.9993.9993-.9993c.5511 0 .9993.4486.9993.9993s-.4482.9993-.9993.9993m11.4045-6.02l1.9973-3.4592a.416.416 0 0 0-.1521-.5676.416.416 0 0 0-.5676.1521l-2.0223 3.503C15.5902 8.2439 13.8533 7.8508 12 7.8508s-3.5902.3931-5.1367 1.0989L4.841 5.4467a.4161.4161 0 0 0-.5676-.1521.416.416 0 0 0-.1521.5676l1.9973 3.4592C2.6889 11.1867.3432 14.6589 0 18.761h24c-.3435-4.1021-2.6892-7.5743-6.1185-9.4396"/>
+        </svg>
+      </div>
+      <h3 class="platform__name">android</h3>
+      <p class="platform__text">apk под android 7+</p>
+      <div class="platform__meta">v0.1.0 · apk ~12 мб · android 7+</div>
+      <a href="https://t.me/divegramdownloads" target="_blank" rel="noopener" class="btn btn--solid" data-hover>
+        <span class="btn__label">скачать для android</span>
+
+      </a>
+    </article>
+
+    <article class="platform platform--soon" data-card>
+      <span class="platform__badge">скоро</span>
+      <div class="platform__icon" data-hover>
+        <svg viewBox="0 0 24 24" fill="currentColor" stroke="none">
+          <path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.701"/>
+        </svg>
+      </div>
+      <h3 class="platform__name">ios</h3>
+      <p class="platform__text">анонсы в тгк</p>
+      <button class="btn btn--ghost" disabled>
+        <span class="btn__label">не в планах</span>
+      </button>
+    </article>
+
+    <article class="platform platform--soon" data-card>
+      <span class="platform__badge">скоро</span>
+      <div class="platform__icon" data-hover>
+        <svg viewBox="0 0 24 24" fill="currentColor" stroke="none">
+          <path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.9-1.801"/>
+        </svg>
+      </div>
+      <h3 class="platform__name">windows</h3>
+      <p class="platform__text">в тгк все анонсы, пока собираем</p>
+      <button class="btn btn--ghost" disabled>
+        <span class="btn__label">в разработке</span>
+      </button>
+    </article>
+  </section>
+
+  <!-- note -->
+  <p class="note note--sticker note--center" data-reveal>ios и windows — честно в работе</p>
+
+  <p class="download-note" data-reveal>
+    divegram — неофициальный клиент Telegram<br>
+    баги и предложения — в <a href="https://t.me/divegram" target="_blank" rel="noopener" class="download-note__link">тгк клиента</a>.
+  </p>
+
+  <!-- footer -->
+  <footer class="footer">
+    <div class="footer__top">
+      <a href="/" class="nav__logo" data-hover>
+        <span class="nav__logo-mark"><img src="/img/logo.svg" alt="" class="nav__logo-img" onerror="this.remove()"></span>
+        <span class="nav__logo-text">divegram</span>
+      </a>
+      <div class="footer__info">
+        <span><strong>v0.1.0</strong> · alpha</span>
+        <span>обновлено 20.08.2026</span>
+      </div>
+      <div class="footer__links">
+        <a href="/faq" class="btn btn--ghost btn--sm" data-hover>faq</a>
+        <a href="https://t.me/divegram" target="_blank" rel="noopener" class="btn btn--ghost btn--sm" data-hover>тгк клиента</a>
+        <a href="/download" class="btn btn--solid btn--sm" data-hover>скачать</a>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <span>© 2026 divegram · неофициальный проект, не связан с telegram</span>
+      <span class="footer__made">сделано потому что делать было нечего</span>
+    </div>
+  </footer>
+
+  <!-- cursor -->
+  <div class="cursor" id="cursor" aria-hidden="true"></div>
+  <div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
+
+  <!-- back to top -->
+  <button class="to-top" id="toTop" aria-label="наверх">↑</button>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://unpkg.com/lenis@1.1.14/dist/lenis.min.js"></script>
+  <script src="/js/main.js"></script>
+</body>
 </html>
