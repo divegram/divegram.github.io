@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DiveGram — кастомный клиент Telegram</title>
+  <meta name="description" content="Divegram — неофициальный клиент Telegram, потому что делать было нечего.">
+  <link rel="icon" type="image/svg+xml" href="img/logo.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;800&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- ambient glow -->
+  <div class="bg-glow" aria-hidden="true"></div>
+  <div class="grain" aria-hidden="true"></div>
+
+  <!-- navbar -->
+  <header class="nav" id="nav">
+    <a href="#" class="nav__logo" data-hover>
+      <span class="nav__logo-mark"><img src="img/logo.svg" alt="" class="nav__logo-img" onerror="this.remove()"></span>
+      <span class="nav__logo-text">divegram</span>
+    </a>
+    <nav class="nav__links">
+      <a href="#about" class="nav__link" data-hover>о проекте</a>
+      <a href="#features" class="nav__link" data-hover>возможности</a>
+      <a href="download.html" class="nav__link" data-hover>скачать</a>
+      <a href="faq.html" class="nav__link" data-hover>faq</a>
+    </nav>
+    <div class="nav__actions">
+      <a href="https://t.me/divegram" class="btn btn--ghost btn--sm" data-hover>тгк клиента</a>
+      <a href="download.html" class="btn btn--solid btn--sm" data-hover>скачать</a>
+    </div>
+  </header>
+
+  <!-- hero -->
+  <section class="hero" id="hero">
+    <div class="hero__orb hero__orb--1" aria-hidden="true"></div>
+    <div class="hero__orb hero__orb--2" aria-hidden="true"></div>
+    <div class="hero__orb hero__orb--3" aria-hidden="true"></div>
+
+    <div class="hero__badge" data-reveal>
+      <span class="hero__badge-dot"></span>
+      неофициальный клиент telegram
+    </div>
+
+    <h1 class="hero__title" data-reveal>
+      <span class="hero__line"><span class="hero__line-inner">погрузись</span></span>
+      <span class="hero__line"><span class="hero__line-inner">в <em>новый</em></span></span>
+      <span class="hero__line"><span class="hero__line-inner hero__line-inner--accent">telegram</span></span>
+    </h1>
+
+    <p class="hero__subtitle" data-reveal>
+      divegram — кастомный клиент telegram. сделано от скуки, <br>
+      почему бы и нет».
+    </p>
+
+    <div class="hero__actions" data-reveal>
+      <a href="download.html" class="btn btn--solid btn--lg" data-hover>
+        <span class="btn__label">скачать клиент</span>
+        <span class="btn__icon">↓</span>
+      </a>
+      <a href="https://t.me/divegram" class="btn btn--ghost btn--lg" data-hover>
+        <span class="btn__label">тгк клиента</span>
+        <span class="btn__icon">→</span>
+      </a>
+    </div>
+
+    <div class="hero__scroll" data-reveal>
+      <span class="hero__scroll-text">листай вниз</span>
+      <span class="hero__scroll-mouse"><span class="hero__scroll-wheel"></span></span>
+    </div>
+  </section>
+
+  <!-- about -->
+  <section class="about section" id="about">
+    <div class="about__grid">
+      <div class="about__left">
+        <p class="section-tag" data-reveal>зачем?</p>
+        <h2 class="section-title" data-reveal>
+          делали<br>
+          <em>просто так.</em>
+        </h2>
+      </div>
+      <div class="about__right">
+        <p class="about__text" data-reveal>
+          однажды вечером было скучно. нет — серьёзно, это вся история.
+          divegram родился из желания сделать что-то своё: свой интерфейс,
+          своя эстетика, свой вайб. не лучше и не хуже оригинала —
+          просто <strong>другой</strong>.
+        </p>
+        <p class="about__text" data-reveal>
+          фиолетовый, плавный, быстрый и очень личный. мы не аффилированы
+          с telegram и не претендуем на лавры — мы просто экспериментируем.
+        </p>
+        <div class="about__stats" data-reveal>
+          <div class="stat">
+            <span class="stat__num" data-date="2026-08-18">0</span>
+            <span class="stat__label">дней разработки</span>
+          </div>
+          <div class="stat">
+            <span class="stat__num" data-date="2026-08-20">0</span>
+            <span class="stat__label">дней с альфы</span>
+          </div>
+          <div class="stat">
+            <span class="stat__num">—</span>
+            <span class="stat__label">релиз</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- features -->
+  <section class="features section" id="features">
+    <div class="features__head">
+      <p class="section-tag" data-reveal>возможности</p>
+      <h2 class="section-title" data-reveal>
+        всё, что нужно.<br>
+        <em>и немного лишнего.</em>
+      </h2>
+    </div>
+
+    <div class="features__grid">
+      <article class="card" data-card>
+        <div class="card__icon" data-hover>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6l7-3z"/>
+          </svg>
+        </div>
+        <h3 class="card__title">свои фишки</h3>
+        <p class="card__text">у нас есть фишки, которых не было еще ни у кого.</p>
+        <span class="card__num">01</span>
+      </article>
+
+      <article class="card" data-card>
+        <div class="card__icon" data-hover>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M13 2L4 14h6l-1 8 9-12h-6l1-8z"/>
+          </svg>
+        </div>
+        <h3 class="card__title">молниеносный</h3>
+        <p class="card__text">лёгкий, отзывчивый, без лишнего мусора. все анимации — стоковые, как в телеграм.</p>
+        <span class="card__num">02</span>
+      </article>
+
+      <article class="card" data-card>
+        <div class="card__icon" data-hover>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2a7 7 0 0 1 7 7c0 2-1 3.5-2 5l-1.5 2H8.5L7 14c-1-1.5-2-3-2-5a7 7 0 0 1 7-7z"/>
+            <path d="M9 18h6M10 21h4"/>
+          </svg>
+        </div>
+        <h3 class="card__title">свой вайб</h3>
+        <p class="card__text">звуки, штрихи, детали, которых нет нигде больше. маленькие радости для больших скучающих.</p>
+        <span class="card__num">03</span>
+      </article>
+
+      <article class="card" data-card>
+        <div class="card__icon" data-hover>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            <path d="M9 12l2 2 4-4"/>
+          </svg>
+        </div>
+        <h3 class="card__title">конфиденциальность</h3>
+        <p class="card__text">никакой телеметрии, никаких сюрпризов. клиент не собирает никакие данные.</p>
+        <span class="card__num">04</span>
+      </article>
+
+      <article class="card" data-card>
+        <div class="card__icon" data-hover>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 4h16v16H4z"/>
+            <path d="M4 9h16M4 15h16M9 4v16M15 4v16"/>
+          </svg>
+        </div>
+        <h3 class="card__title">кастомизация</h3>
+        <p class="card__text">темы, акценты, раскладки — настройки, которые делают разницу.</p>
+        <span class="card__num">05</span>
+      </article>
+
+      <article class="card card--cta" data-card>
+        <h3 class="card__title">хочешь попробовать?</h3>
+        <p class="card__text">клиент бесплатный. мы всегда открыты.</p>
+        <a href="download.html" class="btn btn--solid btn--sm" data-hover>
+          <span class="btn__label">скачать</span>
+          <span class="btn__icon">↓</span>
+        </a>
+        <span class="card__num">06</span>
+      </article>
+    </div>
+  </section>
+
+  <!-- screenshots -->
+  <section class="shots section" id="screens">
+    <div class="shots__head">
+      <p class="section-tag" data-reveal>скриншоты</p>
+      <h2 class="section-title" data-reveal>как это <em>выглядит.</em></h2>
+    </div>
+    <div class="shots__grid">
+      <figure class="shot" data-card>
+        <div class="shot__frame">
+          <span class="shot__placeholder">скрин скоро</span>
+          <img src="img/screens/screen-1.png" alt="скриншот главного экрана" onerror="this.remove()">
+        </div>
+        <figcaption class="shot__caption">удаленные сообщение</figcaption>
+      </figure>
+      <figure class="shot" data-card>
+        <div class="shot__frame">
+          <span class="shot__placeholder">скрин скоро</span>
+          <img src="img/screens/screen-2.png" alt="скриншот списка чатов" onerror="this.remove()">
+        </div>
+        <figcaption class="shot__caption">удаление неактивных чатов</figcaption>
+      </figure>
+      <figure class="shot" data-card>
+        <div class="shot__frame">
+          <span class="shot__placeholder">скрин скоро</span>
+          <img src="img/screens/screen-3.png" alt="скриншот настроек" onerror="this.remove()">
+        </div>
+        <figcaption class="shot__caption">встроенный прокси без VPN</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- big phrase -->
+  <section class="phrase" aria-hidden="true">
+    <p class="phrase__text">
+      <span data-reveal-word>сделано</span>
+      <span data-reveal-word>с</span>
+      <span data-reveal-word>любовью</span>
+      <span data-reveal-word>и</span>
+      <span data-reveal-word>скукой</span>
+    </p>
+  </section>
+
+  <!-- download -->
+  <section class="download section" id="download">
+    <div class="download__glow" aria-hidden="true"></div>
+    <p class="section-tag" data-reveal>вперёд</p>
+    <h2 class="section-title download__title" data-reveal>
+      ныряй <em>глубже.</em>
+    </h2>
+    <p class="download__subtitle" data-reveal>
+      качай клиент и залетай в тгк — там анонсы, билды и розыгрыши.
+    </p>
+    <div class="download__actions" data-reveal>
+      <a href="download.html" class="btn btn--solid btn--xl" data-hover>
+        <span class="btn__label">скачать клиент</span>
+        <span class="btn__icon">↓</span>
+      </a>
+      <a href="https://t.me/divegram" class="btn btn--ghost btn--xl" data-hover>
+        <span class="btn__label">перейти в тгк</span>
+        <span class="btn__icon">→</span>
+      </a>
+    </div>
+    <p class="download__hint" data-reveal>android уже здесь · ios и windows скоро</p>
+  </section>
+
+  <!-- footer -->
+  <footer class="footer">
+    <div class="footer__top">
+      <a href="#" class="nav__logo" data-hover>
+        <span class="nav__logo-mark"><img src="img/logo.svg" alt="" class="nav__logo-img" onerror="this.remove()"></span>
+        <span class="nav__logo-text">divegram</span>
+      </a>
+      <div class="footer__links">
+        <a href="faq.html" class="btn btn--ghost btn--sm" data-hover>faq</a>
+      <a href="https://t.me/divegram" class="btn btn--ghost btn--sm" data-hover>тгк клиента</a>
+        <a href="download.html" class="btn btn--solid btn--sm" data-hover>скачать</a>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <span>© 2026 divegram · неофициальный проект, не связан с telegram</span>
+      <span class="footer__made">сделано потому что делать было нечего</span>
+    </div>
+  </footer>
+
+  <!-- cursor -->
+  <div class="cursor" id="cursor" aria-hidden="true"></div>
+  <div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://unpkg.com/lenis@1.1.14/dist/lenis.min.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
