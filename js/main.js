@@ -52,6 +52,17 @@
     onToggle: (self) => nav.classList.toggle('nav--scrolled', self.isActive),
   });
 
+  /* ---------- scroll progress bar ---------- */
+  gsap.to('.progress', {
+    scaleX: 1,
+    ease: 'none',
+    scrollTrigger: {
+      start: 0,
+      end: 'max',
+      scrub: 0.3,
+    },
+  });
+
   /* ---------- cursor ---------- */
   const cursor = document.getElementById('cursor');
   const cursorDot = document.getElementById('cursorDot');
@@ -168,6 +179,7 @@
         rotateX: 0,
         duration: 1.1,
         ease: 'power3.out',
+        onComplete: () => gsap.set(card, { clearProps: 'transform' }),
         scrollTrigger: {
           trigger: card,
           start: 'top 88%',
@@ -283,6 +295,7 @@
           duration: 0.9,
           ease: 'power3.out',
           stagger: 0.1,
+          onComplete: () => gsap.set(faqItems, { clearProps: 'transform' }),
           scrollTrigger: {
             trigger: '.faq__list',
             start: 'top 85%',

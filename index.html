@@ -13,6 +13,9 @@
 </head>
 <body>
 
+  <!-- scroll progress -->
+  <div class="progress" id="progress" aria-hidden="true"></div>
+
   <!-- ambient glow -->
   <div class="bg-glow" aria-hidden="true"></div>
   <div class="grain" aria-hidden="true"></div>
@@ -30,13 +33,14 @@
       <a href="faq.html" class="nav__link" data-hover>faq</a>
     </nav>
     <div class="nav__actions">
-      <a href="https://t.me/divegram" class="btn btn--ghost btn--sm" data-hover>тгк клиента</a>
+      <a href="https://t.me/divegram" target="_blank" rel="noopener" class="btn btn--ghost btn--sm" data-hover>тгк клиента</a>
       <a href="download.html" class="btn btn--solid btn--sm" data-hover>скачать</a>
     </div>
   </header>
 
   <!-- hero -->
   <section class="hero" id="hero">
+    <div class="hero__aurora" aria-hidden="true"></div>
     <div class="hero__orb hero__orb--1" aria-hidden="true"></div>
     <div class="hero__orb hero__orb--2" aria-hidden="true"></div>
     <div class="hero__orb hero__orb--3" aria-hidden="true"></div>
@@ -62,7 +66,7 @@
         <span class="btn__label">скачать клиент</span>
         <span class="btn__icon">↓</span>
       </a>
-      <a href="https://t.me/divegram" class="btn btn--ghost btn--lg" data-hover>
+      <a href="https://t.me/divegram" target="_blank" rel="noopener" class="btn btn--ghost btn--lg" data-hover>
         <span class="btn__label">тгк клиента</span>
         <span class="btn__icon">→</span>
       </a>
@@ -236,6 +240,26 @@
     </p>
   </section>
 
+  <!-- ticker -->
+  <div class="ticker" aria-hidden="true">
+    <div class="ticker__track">
+      <div class="ticker__group">
+        <span>divegram</span>
+        <span>сделано с любовью</span>
+        <span>и скукой</span>
+        <span>android уже здесь</span>
+        <span>ios и windows скоро</span>
+      </div>
+      <div class="ticker__group">
+        <span>divegram</span>
+        <span>сделано с любовью</span>
+        <span>и скукой</span>
+        <span>android уже здесь</span>
+        <span>ios и windows скоро</span>
+      </div>
+    </div>
+  </div>
+
   <!-- download -->
   <section class="download section" id="download">
     <div class="download__glow" aria-hidden="true"></div>
@@ -251,7 +275,7 @@
         <span class="btn__label">скачать клиент</span>
         <span class="btn__icon">↓</span>
       </a>
-      <a href="https://t.me/divegram" class="btn btn--ghost btn--xl" data-hover>
+      <a href="https://t.me/divegram" target="_blank" rel="noopener" class="btn btn--ghost btn--xl" data-hover>
         <span class="btn__label">перейти в тгк</span>
         <span class="btn__icon">→</span>
       </a>
@@ -268,7 +292,7 @@
       </a>
       <div class="footer__links">
         <a href="faq.html" class="btn btn--ghost btn--sm" data-hover>faq</a>
-      <a href="https://t.me/divegram" class="btn btn--ghost btn--sm" data-hover>тгк клиента</a>
+      <a href="https://t.me/divegram" target="_blank" rel="noopener" class="btn btn--ghost btn--sm" data-hover>тгк клиента</a>
         <a href="download.html" class="btn btn--solid btn--sm" data-hover>скачать</a>
       </div>
     </div>
