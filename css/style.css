@@ -1230,6 +1230,100 @@ a:hover .nav__logo-mark { transform: rotate(-10deg) scale(1.08); }
 .faq__a p { margin-bottom: 10px; }
 .faq__a p:last-child { margin-bottom: 0; }
 
+/* ---------- developers ---------- */
+
+.devs {
+  padding: 0 6vw clamp(90px, 10vw, 140px);
+}
+
+.devs__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: clamp(16px, 2.4vw, 28px);
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.dev {
+  padding: clamp(28px, 3vw, 40px);
+}
+
+.dev__head {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: flex-start;
+  gap: 18px;
+  margin-bottom: 22px;
+}
+
+.dev__avatar {
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background:
+    radial-gradient(120% 120% at 30% 20%, rgba(168, 85, 247, 0.35), transparent 70%),
+    rgba(168, 85, 247, 0.12);
+  border: 1px solid rgba(168, 85, 247, 0.35);
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 22px;
+  color: var(--accent);
+}
+
+.dev__name {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(17px, 2vw, 20px);
+  margin-bottom: 6px;
+}
+
+.dev__bio {
+  color: var(--text-dim);
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.dev__roles {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 24px;
+  list-style: none;
+}
+
+.dev__chip {
+  padding: 7px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.03);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  color: var(--text-dim);
+}
+
+.dev__chip:first-child { color: var(--accent); border-color: rgba(168, 85, 247, 0.4); background: rgba(168, 85, 247, 0.1); }
+
+.dev__site {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: var(--accent);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.dev__site:hover { color: #fff; }
+.dev__site span { font-size: 13px; }
+
 /* ---------- footer ---------- */
 
 .footer {
