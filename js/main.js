@@ -309,6 +309,11 @@
   /* ---------- magnetic buttons ---------- */
   if (isFinePointer && !prefersReduced) {
     document.querySelectorAll('.btn').forEach((btn) => {
+      btn.addEventListener('pointerdown', () => {
+        gsap.killTweensOf(btn);
+        gsap.set(btn, { x: 0, y: 0 });
+      });
+
       btn.addEventListener('mousemove', (e) => {
         const rect = btn.getBoundingClientRect();
         const x = e.clientX - rect.left - rect.width / 2;
