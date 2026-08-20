@@ -773,6 +773,7 @@ a:hover .nav__logo-mark { transform: rotate(-10deg) scale(1.08); }
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: clamp(16px, 2.4vw, 28px);
+  align-items: start;
 }
 
 .shot {
@@ -797,12 +798,12 @@ a:hover .nav__logo-mark { transform: rotate(-10deg) scale(1.08); }
   height: 14px;
   background: rgba(255, 255, 255, 0.06);
   border-radius: 999px;
-  z-index: 2;
+  z-index: 3;
 }
 
 .shot__frame {
   position: relative;
-  aspect-ratio: 9 / 16;
+  min-height: 280px;
   border-radius: var(--radius);
   overflow: hidden;
   border: 1px solid var(--border);
@@ -814,6 +815,7 @@ a:hover .nav__logo-mark { transform: rotate(-10deg) scale(1.08); }
 .shot__placeholder {
   position: absolute;
   inset: 0;
+  z-index: 1;
   display: grid;
   place-items: center;
   text-align: center;
@@ -824,12 +826,13 @@ a:hover .nav__logo-mark { transform: rotate(-10deg) scale(1.08); }
 }
 
 .shot__frame img {
-  position: absolute;
-  inset: 0;
+  position: relative;
+  z-index: 2;
+  display: block;
   width: 100%;
-  height: 100%;
+  height: auto;
   object-fit: contain;
-  padding: 6px;
+  margin: 0 auto;
 }
 
 .shot__caption {
