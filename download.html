@@ -35,13 +35,31 @@
     <div class="nav__actions">
       <a href="https://t.me/divegram" target="_blank" rel="noopener" class="btn btn--ghost btn--sm" data-hover>тгк клиента</a>
       <a href="download.html" class="btn btn--solid btn--sm" data-hover>скачать</a>
+      <button class="nav__burger" id="burger" aria-label="открыть меню" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
     </div>
   </header>
+
+  <!-- mobile menu -->
+  <div class="mobile-menu" id="mobileMenu">
+    <nav class="mobile-menu__links">
+      <a href="index.html#about" class="mobile-menu__link">о проекте</a>
+      <a href="index.html#features" class="mobile-menu__link">возможности</a>
+      <a href="download.html" class="mobile-menu__link">скачать</a>
+      <a href="faq.html" class="mobile-menu__link">faq</a>
+      <a href="https://t.me/divegram" target="_blank" rel="noopener" class="mobile-menu__link mobile-menu__link--btn">тгк клиента</a>
+    </nav>
+  </div>
 
   <!-- page hero -->
   <section class="page-hero">
     <div class="page-hero__orb page-hero__orb--1" aria-hidden="true"></div>
     <div class="page-hero__orb page-hero__orb--2" aria-hidden="true"></div>
+    <span class="hero__badge" data-reveal>
+      <span class="hero__badge-dot"></span>
+      android · v0.1.0 · альфа
+    </span>
     <p class="section-tag" data-reveal>вперёд</p>
     <h1 class="section-title page-hero__title" data-reveal>скачай <em>divegram</em></h1>
     <p class="page-hero__subtitle" data-reveal>
@@ -52,7 +70,7 @@
 
   <!-- platforms -->
   <section class="platforms">
-    <article class="platform" data-card>
+    <article class="platform" data-card data-tilt>
       <div class="platform__icon" data-hover>
         <svg viewBox="0 0 24 24" fill="currentColor" stroke="none">
           <path d="M17.523 15.3414c-.5511 0-.9993-.4486-.9993-.9993s.4482-.9993.9993-.9993c.5511 0 .9993.4486.9993.9993s-.4482.9993-.9993.9993m-11.046 0c-.5511 0-.9993-.4486-.9993-.9993s.4482-.9993.9993-.9993c.5511 0 .9993.4486.9993.9993s-.4482.9993-.9993.9993m11.4045-6.02l1.9973-3.4592a.416.416 0 0 0-.1521-.5676.416.416 0 0 0-.5676.1521l-2.0223 3.503C15.5902 8.2439 13.8533 7.8508 12 7.8508s-3.5902.3931-5.1367 1.0989L4.841 5.4467a.4161.4161 0 0 0-.5676-.1521.416.416 0 0 0-.1521.5676l1.9973 3.4592C2.6889 11.1867.3432 14.6589 0 18.761h24c-.3435-4.1021-2.6892-7.5743-6.1185-9.4396"/>
@@ -66,7 +84,7 @@
       </a>
     </article>
 
-    <article class="platform platform--soon" data-card>
+    <article class="platform platform--soon" data-card data-tilt>
       <span class="platform__badge">скоро</span>
       <div class="platform__icon" data-hover>
         <svg viewBox="0 0 24 24" fill="currentColor" stroke="none">
@@ -80,7 +98,7 @@
       </button>
     </article>
 
-    <article class="platform platform--soon" data-card>
+    <article class="platform platform--soon" data-card data-tilt>
       <span class="platform__badge">скоро</span>
       <div class="platform__icon" data-hover>
         <svg viewBox="0 0 24 24" fill="currentColor" stroke="none">
@@ -123,6 +141,10 @@
   <!-- cursor -->
   <div class="cursor" id="cursor" aria-hidden="true"></div>
   <div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
+  <div class="cursor-glow" id="cursorGlow" aria-hidden="true"></div>
+
+  <!-- back to top -->
+  <button class="to-top" id="toTop" aria-label="наверх">↑</button>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>

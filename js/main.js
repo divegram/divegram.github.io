@@ -66,6 +66,7 @@
   /* ---------- cursor ---------- */
   const cursor = document.getElementById('cursor');
   const cursorDot = document.getElementById('cursorDot');
+  const cursorGlow = document.getElementById('cursorGlow');
   const isFinePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 
   if (isFinePointer) {
@@ -78,6 +79,7 @@
       cursorY = e.clientY;
       gsap.to(cursor, { opacity: 1, duration: 0.15 });
       gsap.to(cursorDot, { opacity: 1, duration: 0.15 });
+      if (cursorGlow) gsap.to(cursorGlow, { opacity: 1, duration: 0.4 });
     });
 
     gsap.ticker.add(() => {
@@ -89,10 +91,20 @@
         ease: 'power3.out',
         overwrite: 'auto',
       });
+      if (cursorGlow) {
+        gsap.to(cursorGlow, {
+          x: cursorX,
+          y: cursorY,
+          duration: 1,
+          ease: 'power3.out',
+          overwrite: 'auto',
+        });
+      }
     });
 
     document.addEventListener('mouseleave', () => {
       gsap.to([cursor, cursorDot], { opacity: 0, duration: 0.25 });
+      if (cursorGlow) gsap.to(cursorGlow, { opacity: 0, duration: 0.5 });
     });
 
     document.querySelectorAll('a, .btn, .card, [data-hover]').forEach((el) => {
@@ -312,6 +324,11 @@
       btn.addEventListener('pointerdown', () => {
         gsap.killTweensOf(btn);
         gsap.set(btn, { x: 0, y: 0 });
+        gsap.to(btn, { scale: 0.96, duration: 0.12, ease: 'power2.out' });
+      });
+
+      btn.addEventListener('pointerup', () => {
+        gsap.to(btn, { scale: 1, duration: 0.4, ease: 'back.out(2)' });
       });
 
       btn.addEventListener('mousemove', (e) => {
@@ -327,9 +344,80 @@
       });
 
       btn.addEventListener('mouseleave', () => {
-        gsap.to(btn, { x: 0, y: 0, duration: 0.7, ease: 'elastic.out(1, 0.45)' });
+        gsap.to(btn, { x: 0, y: 0, scale: 1, duration: 0.7, ease: 'elastic.out(1, 0.45)' });
       });
     });
+  }
+
+  /* ---------- 3d tilt + spotlight ---------- */
+  if (isFinePointer && !prefersReduced) {
+    document.querySelectorAll('[data-tilt], .faq__item').forEach((el) => {
+      el.addEventListener('mousemove', (e) => {
+        const r = el.getBoundingClientRect();
+        const x = e.clientX - r.left;
+        const y = e.clientY - r.top;
+        el.style.setProperty('--mx', `${(x / r.width) * 100}%`);
+        el.style.setProperty('--my', `${(y / r.height) * 100}%`);
+
+        if (el.hasAttribute('data-tilt')) {
+          const px = x / r.width - 0.5;
+          const py = y / r.height - 0.5;
+          gsap.to(el, {
+            rotateY: px * 14,
+            rotateX: -py * 14,
+            transformPerspective: 900,
+            duration: 0.45,
+            ease: 'power2.out',
+          });
+        }
+      });
+
+      el.addEventListener('mouseleave', () => {
+        if (el.hasAttribute('data-tilt')) {
+          gsap.to(el, { rotateX: 0, rotateY: 0, duration: 0.9, ease: 'elastic.out(1, 0.45)' });
+        }
+      });
+    });
+  }
+
+  /* ---------- mobile menu ---------- */
+  const burger = document.getElementById('burger');
+  const mobileMenu = document.getElementById('mobileMenu');
+
+  if (burger && mobileMenu) {
+    const closeMenu = () => {
+      burger.classList.remove('nav__burger--open');
+      mobileMenu.classList.remove('mobile-menu--open');
+      burger.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+    };
+
+    const openMenu = () => {
+      burger.classList.add('nav__burger--open');
+      mobileMenu.classList.add('mobile-menu--open');
+      burger.setAttribute('aria-expanded', 'true');
+      document.body.style.overflow = 'hidden';
+    };
+
+    burger.addEventListener('click', () => {
+      if (mobileMenu.classList.contains('mobile-menu--open')) closeMenu();
+      else openMenu();
+    });
+
+    mobileMenu.querySelectorAll('a').forEach((link) => link.addEventListener('click', closeMenu));
+  }
+
+  /* ---------- back to top ---------- */
+  const toTop = document.getElementById('toTop');
+
+  if (toTop) {
+    ScrollTrigger.create({
+      start: 320,
+      end: 'max',
+      onToggle: (self) => toTop.classList.toggle('to-top--visible', self.isActive),
+    });
+
+    toTop.addEventListener('click', () => lenis.scrollTo(0, { duration: 1.6 }));
   }
 
   /* ---------- footer reveal ---------- */

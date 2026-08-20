@@ -35,8 +35,22 @@
     <div class="nav__actions">
       <a href="https://t.me/divegram" target="_blank" rel="noopener" class="btn btn--ghost btn--sm" data-hover>тгк клиента</a>
       <a href="download.html" class="btn btn--solid btn--sm" data-hover>скачать</a>
+      <button class="nav__burger" id="burger" aria-label="открыть меню" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
     </div>
   </header>
+
+  <!-- mobile menu -->
+  <div class="mobile-menu" id="mobileMenu">
+    <nav class="mobile-menu__links">
+      <a href="index.html#about" class="mobile-menu__link">о проекте</a>
+      <a href="index.html#features" class="mobile-menu__link">возможности</a>
+      <a href="download.html" class="mobile-menu__link">скачать</a>
+      <a href="faq.html" class="mobile-menu__link">faq</a>
+      <a href="https://t.me/divegram" target="_blank" rel="noopener" class="mobile-menu__link mobile-menu__link--btn">тгк клиента</a>
+    </nav>
+  </div>
 
   <!-- page hero -->
   <section class="page-hero">
@@ -127,6 +141,10 @@
   <!-- cursor -->
   <div class="cursor" id="cursor" aria-hidden="true"></div>
   <div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
+  <div class="cursor-glow" id="cursorGlow" aria-hidden="true"></div>
+
+  <!-- back to top -->
+  <button class="to-top" id="toTop" aria-label="наверх">↑</button>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
