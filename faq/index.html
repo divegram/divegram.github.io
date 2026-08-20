@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FAQ — Divegram</title>
+  <meta name="description" content="Частые вопросы о Divegram — кастомном клиенте Telegram.">
+  <link rel="icon" type="image/svg+xml" href="/img/logo.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;800&family=Manrope:wght@300;400;500;600;700;800&family=Marck+Script&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+  <!-- scroll progress -->
+  <div class="progress" id="progress" aria-hidden="true"></div>
+
+  <!-- ambient glow -->
+  <div class="bg-glow" aria-hidden="true"></div>
+  <div class="grain" aria-hidden="true"></div>
+
+  <!-- navbar -->
+  <header class="nav" id="nav">
+    <a href="/" class="nav__logo" data-hover>
+      <span class="nav__logo-mark"><img src="/img/logo.svg" alt="" class="nav__logo-img" onerror="this.remove()"></span>
+      <span class="nav__logo-text">divegram</span>
+    </a>
+    <nav class="nav__links">
+      <a href="/#about" class="nav__link" data-hover>о проекте</a>
+      <a href="/#features" class="nav__link" data-hover>возможности</a>
+      <a href="/download" class="nav__link" data-hover>скачать</a>
+      <a href="/faq" class="nav__link" data-hover>faq</a>
+    </nav>
+    <div class="nav__actions">
+      <a href="https://t.me/divegram" target="_blank" rel="noopener" class="btn btn--ghost btn--sm" data-hover>тгк клиента</a>
+      <a href="/download" class="btn btn--solid btn--sm" data-hover>скачать</a>
+      <button class="nav__burger" id="burger" aria-label="открыть меню" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- mobile menu -->
+  <div class="mobile-menu" id="mobileMenu">
+    <nav class="mobile-menu__links">
+      <a href="/#about" class="mobile-menu__link">о проекте</a>
+      <a href="/#features" class="mobile-menu__link">возможности</a>
+      <a href="/download" class="mobile-menu__link">скачать</a>
+      <a href="/faq" class="mobile-menu__link">faq</a>
+      <a href="https://t.me/divegram" target="_blank" rel="noopener" class="mobile-menu__link mobile-menu__link--btn">тгк клиента</a>
+    </nav>
+  </div>
+
+  <!-- page hero -->
+  <section class="page-hero">
+    <div class="page-hero__orb page-hero__orb--1" aria-hidden="true"></div>
+    <div class="page-hero__orb page-hero__orb--2" aria-hidden="true"></div>
+    <span class="hero__badge" data-reveal>
+      <span class="hero__badge-dot"></span>
+      обновлено: сегодня
+    </span>
+    <p class="section-tag" data-reveal>вопросы и ответы</p>
+    <h1 class="section-title page-hero__title" data-reveal>частые <em>вопросы</em></h1>
+    <p class="page-hero__subtitle" data-reveal>
+      самое важное и не очень.<br>
+      если не нашёл ответа, пиши в тгк клиента/одному из разрабов.
+    </p>
+  </section>
+
+  <!-- faq -->
+  <section class="faq">
+    <div class="faq__list">
+
+      <details class="faq__item">
+        <summary class="faq__q">что такое divegram?</summary>
+        <div class="faq__a">
+          <p>неофициальный кастомный клиент telegram, собранный с нуля: свой интерфейс, свои настройки, свои фишки. делаем просто потому что можем.</p>
+        </div>
+      </details>
+
+      <details class="faq__item">
+        <summary class="faq__q">это официальный клиент telegram?</summary>
+        <div class="faq__a">
+          <p>нет. divegram никак не связан с telegram messenger inc. и не претендует на лавры — это эксперимент, а не замена.</p>
+        </div>
+      </details>
+
+      <details class="faq__item">
+        <summary class="faq__q">сколько стоит divegram?</summary>
+        <div class="faq__a">
+          <p>нисколько. клиент полностью бесплатный, но мы всегда открыты к пожертвованиям и донатам</p>
+        </div>
+      </details>
+
+      <details class="faq__item">
+        <summary class="faq__q">когда выйдет на ios и windows?</summary>
+        <div class="faq__a">
+          <p>скоро. с ios возникают некие проблемы изза совместимости, на windows выйдет быстрее. все анонсы в тгк</p>
+        </div>
+      </details>
+
+      <details class="faq__item">
+        <summary class="faq__q">безопасно ли им пользоваться?</summary>
+        <div class="faq__a">
+          <p>мы не собираем телеметрию и не храним ничего у себя. но это неофициальный клиент, так что используешь на свой страх и риск.</p>
+        </div>
+      </details>
+
+      <details class="faq__item">
+        <summary class="faq__q">где следить за обновлениями?</summary>
+        <div class="faq__a">
+          <p>в тгк клиента. там всё - билды, анонсы и розыгрыши.</p>
+        </div>
+      </details>
+
+    </div>
+  </section>
+
+  <!-- note -->
+  <p class="download-note" data-reveal>
+    остались вопросы? залетай в <a href="https://t.me/divegram" target="_blank" rel="noopener" class="download-note__link">тгк клиента</a> —<br>
+    там ответят быстро.
+  </p>
+
+  <!-- footer -->
+  <footer class="footer">
+    <div class="footer__top">
+      <a href="/" class="nav__logo" data-hover>
+        <span class="nav__logo-mark"><img src="/img/logo.svg" alt="" class="nav__logo-img" onerror="this.remove()"></span>
+        <span class="nav__logo-text">divegram</span>
+      </a>
+      <div class="footer__info">
+        <span><strong>v0.1.0</strong> · alpha</span>
+        <span>обновлено 20.08.2026</span>
+      </div>
+      <div class="footer__links">
+        <a href="/faq" class="btn btn--ghost btn--sm" data-hover>faq</a>
+        <a href="https://t.me/divegram" target="_blank" rel="noopener" class="btn btn--ghost btn--sm" data-hover>тгк клиента</a>
+        <a href="/download" class="btn btn--solid btn--sm" data-hover>скачать</a>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <span>© 2026 divegram · неофициальный проект, не связан с telegram</span>
+      <span class="footer__made">сделано потому что делать было нечего</span>
+    </div>
+  </footer>
+
+  <!-- cursor -->
+  <div class="cursor" id="cursor" aria-hidden="true"></div>
+  <div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
+
+  <!-- back to top -->
+  <button class="to-top" id="toTop" aria-label="наверх">↑</button>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://unpkg.com/lenis@1.1.14/dist/lenis.min.js"></script>
+  <script src="/js/main.js"></script>
+</body>
+</html>
