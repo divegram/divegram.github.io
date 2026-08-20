@@ -8,7 +8,7 @@
   <link rel="icon" type="image/svg+xml" href="img/logo.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;800&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;800&family=Manrope:wght@300;400;500;600;700;800&family=Marck+Script&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -56,6 +56,10 @@
   <section class="page-hero">
     <div class="page-hero__orb page-hero__orb--1" aria-hidden="true"></div>
     <div class="page-hero__orb page-hero__orb--2" aria-hidden="true"></div>
+    <span class="hero__badge" data-reveal>
+      <span class="hero__badge-dot"></span>
+      обновлено: сегодня
+    </span>
     <p class="section-tag" data-reveal>вопросы и ответы</p>
     <h1 class="section-title page-hero__title" data-reveal>частые <em>вопросы</em></h1>
     <p class="page-hero__subtitle" data-reveal>
@@ -126,6 +130,10 @@
         <span class="nav__logo-mark"><img src="img/logo.svg" alt="" class="nav__logo-img" onerror="this.remove()"></span>
         <span class="nav__logo-text">divegram</span>
       </a>
+      <div class="footer__info">
+        <span><strong>v0.1.0</strong> · alpha</span>
+        <span>обновлено 20.08.2026</span>
+      </div>
       <div class="footer__links">
         <a href="faq.html" class="btn btn--ghost btn--sm" data-hover>faq</a>
         <a href="https://t.me/divegram" target="_blank" rel="noopener" class="btn btn--ghost btn--sm" data-hover>тгк клиента</a>
@@ -141,7 +149,6 @@
   <!-- cursor -->
   <div class="cursor" id="cursor" aria-hidden="true"></div>
   <div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
-  <div class="cursor-glow" id="cursorGlow" aria-hidden="true"></div>
 
   <!-- back to top -->
   <button class="to-top" id="toTop" aria-label="наверх">↑</button>

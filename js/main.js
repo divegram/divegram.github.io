@@ -66,7 +66,6 @@
   /* ---------- cursor ---------- */
   const cursor = document.getElementById('cursor');
   const cursorDot = document.getElementById('cursorDot');
-  const cursorGlow = document.getElementById('cursorGlow');
   const isFinePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 
   if (isFinePointer) {
@@ -79,7 +78,6 @@
       cursorY = e.clientY;
       gsap.to(cursor, { opacity: 1, duration: 0.15 });
       gsap.to(cursorDot, { opacity: 1, duration: 0.15 });
-      if (cursorGlow) gsap.to(cursorGlow, { opacity: 1, duration: 0.4 });
     });
 
     gsap.ticker.add(() => {
@@ -91,20 +89,10 @@
         ease: 'power3.out',
         overwrite: 'auto',
       });
-      if (cursorGlow) {
-        gsap.to(cursorGlow, {
-          x: cursorX,
-          y: cursorY,
-          duration: 1,
-          ease: 'power3.out',
-          overwrite: 'auto',
-        });
-      }
     });
 
     document.addEventListener('mouseleave', () => {
       gsap.to([cursor, cursorDot], { opacity: 0, duration: 0.25 });
-      if (cursorGlow) gsap.to(cursorGlow, { opacity: 0, duration: 0.5 });
     });
 
     document.querySelectorAll('a, .btn, .card, [data-hover]').forEach((el) => {
@@ -117,11 +105,11 @@
   document.querySelectorAll('[data-reveal]').forEach((el) => {
     gsap.fromTo(
       el,
-      { y: 44, opacity: 0 },
+      { y: 26, opacity: 0 },
       {
         y: 0,
         opacity: 1,
-        duration: 1,
+        duration: 0.8,
         ease: 'power3.out',
         scrollTrigger: {
           trigger: el,
@@ -158,7 +146,7 @@
 
     /* hero parallax out on scroll */
     gsap.to('.hero__title, .hero__subtitle, .hero__badge', {
-      y: -120,
+      y: -70,
       ease: 'none',
       scrollTrigger: {
         trigger: '.hero',
@@ -167,29 +155,17 @@
         scrub: 0.8,
       },
     });
-
-    gsap.to('.hero__orb--1, .hero__orb--2, .hero__orb--3', {
-      scale: 1.35,
-      ease: 'none',
-      scrollTrigger: {
-        trigger: '.hero',
-        start: 'top top',
-        end: 'bottom 25%',
-        scrub: 1,
-      },
-    });
   }
 
   /* ---------- cards stagger ---------- */
   gsap.utils.toArray('[data-card]').forEach((card, i) => {
     gsap.fromTo(
       card,
-      { y: 70, opacity: 0, rotateX: -8 },
+      { y: 40, opacity: 0 },
       {
         y: 0,
         opacity: 1,
-        rotateX: 0,
-        duration: 1.1,
+        duration: 0.8,
         ease: 'power3.out',
         onComplete: () => gsap.set(card, { clearProps: 'transform' }),
         scrollTrigger: {
@@ -300,11 +276,11 @@
 
       gsap.fromTo(
         faqItems,
-        { y: 60, opacity: 0 },
+        { y: 36, opacity: 0 },
         {
           y: 0,
           opacity: 1,
-          duration: 0.9,
+          duration: 0.8,
           ease: 'power3.out',
           stagger: 0.1,
           onComplete: () => gsap.set(faqItems, { clearProps: 'transform' }),
@@ -318,64 +294,13 @@
     }
   }
 
-  /* ---------- magnetic buttons ---------- */
+  /* ---------- spotlight ---------- */
   if (isFinePointer && !prefersReduced) {
-    document.querySelectorAll('.btn').forEach((btn) => {
-      btn.addEventListener('pointerdown', () => {
-        gsap.killTweensOf(btn);
-        gsap.set(btn, { x: 0, y: 0 });
-        gsap.to(btn, { scale: 0.96, duration: 0.12, ease: 'power2.out' });
-      });
-
-      btn.addEventListener('pointerup', () => {
-        gsap.to(btn, { scale: 1, duration: 0.4, ease: 'back.out(2)' });
-      });
-
-      btn.addEventListener('mousemove', (e) => {
-        const rect = btn.getBoundingClientRect();
-        const x = e.clientX - rect.left - rect.width / 2;
-        const y = e.clientY - rect.top - rect.height / 2;
-        gsap.to(btn, {
-          x: x * 0.22,
-          y: y * 0.35,
-          duration: 0.45,
-          ease: 'power3.out',
-        });
-      });
-
-      btn.addEventListener('mouseleave', () => {
-        gsap.to(btn, { x: 0, y: 0, scale: 1, duration: 0.7, ease: 'elastic.out(1, 0.45)' });
-      });
-    });
-  }
-
-  /* ---------- 3d tilt + spotlight ---------- */
-  if (isFinePointer && !prefersReduced) {
-    document.querySelectorAll('[data-tilt], .faq__item').forEach((el) => {
+    document.querySelectorAll('.card, .platform, .shot, .faq__item').forEach((el) => {
       el.addEventListener('mousemove', (e) => {
         const r = el.getBoundingClientRect();
-        const x = e.clientX - r.left;
-        const y = e.clientY - r.top;
-        el.style.setProperty('--mx', `${(x / r.width) * 100}%`);
-        el.style.setProperty('--my', `${(y / r.height) * 100}%`);
-
-        if (el.hasAttribute('data-tilt')) {
-          const px = x / r.width - 0.5;
-          const py = y / r.height - 0.5;
-          gsap.to(el, {
-            rotateY: px * 14,
-            rotateX: -py * 14,
-            transformPerspective: 900,
-            duration: 0.45,
-            ease: 'power2.out',
-          });
-        }
-      });
-
-      el.addEventListener('mouseleave', () => {
-        if (el.hasAttribute('data-tilt')) {
-          gsap.to(el, { rotateX: 0, rotateY: 0, duration: 0.9, ease: 'elastic.out(1, 0.45)' });
-        }
+        el.style.setProperty('--mx', `${((e.clientX - r.left) / r.width) * 100}%`);
+        el.style.setProperty('--my', `${((e.clientY - r.top) / r.height) * 100}%`);
       });
     });
   }
@@ -423,7 +348,7 @@
   /* ---------- footer reveal ---------- */
   gsap.fromTo(
     '.footer',
-    { y: 60, opacity: 0 },
+    { y: 36, opacity: 0 },
     {
       y: 0,
       opacity: 1,
