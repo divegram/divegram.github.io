@@ -1,11 +1,21 @@
 :root {
-  --bg: #0a0214;
-  --bg-2: #12032a;
-  --surface: rgba(255, 255, 255, 0.04);
-  --surface-hover: rgba(255, 255, 255, 0.08);
-  --border: rgba(255, 255, 255, 0.09);
-  --text: #f3eefc;
-  --text-dim: #a596c4;
+  --bg: #ffffff;
+  --bg-2: #f6f1fe;
+  --surface: rgba(28, 16, 48, 0.04);
+  --surface-hover: rgba(28, 16, 48, 0.08);
+  --border: rgba(28, 16, 48, 0.12);
+  --border-strong: rgba(28, 16, 48, 0.3);
+  --text: #1c1030;
+  --text-dim: #6f5e92;
+  --text-mid: rgba(28, 16, 48, 0.75);
+  --text-faint: rgba(28, 16, 48, 0.4);
+  --text-ghost: rgba(28, 16, 48, 0.14);
+  --chip-bg: rgba(28, 16, 48, 0.05);
+  --nav-bg: rgba(255, 255, 255, 0.75);
+  --menu-bg: rgba(255, 255, 255, 0.97);
+  --float-bg: rgba(255, 255, 255, 0.85);
+  --frame-bg: linear-gradient(180deg, #faf7ff, #f1eafd);
+  --nav-shadow: 0 10px 40px rgba(28, 16, 48, 0.1);
   --accent: #a855f7;
   --accent-2: #d946ef;
   --accent-3: #6d28d9;
@@ -14,6 +24,26 @@
   --font-display: 'Unbounded', sans-serif;
   --font-body: 'Manrope', sans-serif;
   --font-hand: 'Marck Script', cursive;
+}
+
+html[data-theme="dark"] {
+  --bg: #0a0214;
+  --bg-2: #12032a;
+  --surface: rgba(255, 255, 255, 0.04);
+  --surface-hover: rgba(255, 255, 255, 0.08);
+  --border: rgba(255, 255, 255, 0.09);
+  --border-strong: rgba(255, 255, 255, 0.25);
+  --text: #f3eefc;
+  --text-dim: #a596c4;
+  --text-mid: rgba(255, 255, 255, 0.6);
+  --text-faint: rgba(255, 255, 255, 0.3);
+  --text-ghost: rgba(255, 255, 255, 0.16);
+  --chip-bg: rgba(255, 255, 255, 0.03);
+  --nav-bg: rgba(10, 2, 20, 0.65);
+  --menu-bg: rgba(10, 2, 20, 0.92);
+  --float-bg: rgba(18, 3, 42, 0.7);
+  --frame-bg: var(--frame-bg);
+  --nav-shadow: 0 10px 40px rgba(0, 0, 0, 0.35);
 }
 
 *, *::before, *::after {
@@ -82,6 +112,14 @@ a { color: inherit; text-decoration: none; }
   position: fixed;
   inset: 0;
   z-index: -2;
+  background:
+    radial-gradient(60% 45% at 20% 10%, rgba(168, 85, 247, 0.09) 0%, transparent 60%),
+    radial-gradient(50% 40% at 85% 35%, rgba(217, 70, 239, 0.06) 0%, transparent 65%),
+    radial-gradient(55% 50% at 50% 95%, rgba(109, 40, 217, 0.05) 0%, transparent 60%),
+    var(--bg);
+}
+
+html[data-theme="dark"] .bg-glow {
   background:
     radial-gradient(60% 45% at 20% 10%, rgba(109, 40, 217, 0.28) 0%, transparent 60%),
     radial-gradient(50% 40% at 85% 35%, rgba(168, 85, 247, 0.18) 0%, transparent 65%),
@@ -276,11 +314,11 @@ a { color: inherit; text-decoration: none; }
 }
 
 .nav--scrolled {
-  background: rgba(10, 2, 20, 0.65);
+  background: var(--nav-bg);
   backdrop-filter: blur(16px);
   padding-top: 12px;
   padding-bottom: 12px;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.35);
+  box-shadow: var(--nav-shadow);
   border-bottom: 1px solid var(--border);
 }
 
@@ -386,7 +424,7 @@ a:hover .nav__logo-mark { transform: rotate(-10deg) scale(1.08); }
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(10, 2, 20, 0.92);
+  background: var(--menu-bg);
   backdrop-filter: blur(18px);
   opacity: 0;
   visibility: hidden;
@@ -457,6 +495,11 @@ a:hover .nav__logo-mark { transform: rotate(-10deg) scale(1.08); }
   opacity: 0.5;
   pointer-events: none;
   will-change: transform;
+}
+
+html:not([data-theme="dark"]) .hero__orb,
+html:not([data-theme="dark"]) .page-hero__orb {
+  opacity: 0.2;
 }
 
 .hero__orb--1 {
@@ -592,7 +635,7 @@ a:hover .nav__logo-mark { transform: rotate(-10deg) scale(1.08); }
 .hero__scroll-mouse {
   width: 24px;
   height: 38px;
-  border: 1.5px solid rgba(255, 255, 255, 0.25);
+  border: 1.5px solid var(--border-strong);
   border-radius: 14px;
   display: flex;
   justify-content: center;
@@ -747,7 +790,7 @@ a:hover .nav__logo-mark { transform: rotate(-10deg) scale(1.08); }
   font-family: var(--font-display);
   font-size: 13px;
   font-weight: 600;
-  color: rgba(255, 255, 255, 0.16);
+  color: var(--text-ghost);
   transition: color 0.4s ease;
 }
 
@@ -796,7 +839,7 @@ a:hover .nav__logo-mark { transform: rotate(-10deg) scale(1.08); }
   transform: translateX(-50%);
   width: 72px;
   height: 14px;
-  background: rgba(255, 255, 255, 0.06);
+  background: var(--chip-bg);
   border-radius: 999px;
   z-index: 3;
 }
@@ -809,7 +852,7 @@ a:hover .nav__logo-mark { transform: rotate(-10deg) scale(1.08); }
   border: 1px solid var(--border);
   background:
     radial-gradient(120% 100% at 50% 0%, rgba(168, 85, 247, 0.18), transparent 60%),
-    linear-gradient(180deg, rgba(18, 3, 42, 0.9), rgba(10, 2, 20, 1));
+    var(--frame-bg);
 }
 
 .shot__placeholder {
@@ -822,7 +865,7 @@ a:hover .nav__logo-mark { transform: rotate(-10deg) scale(1.08); }
   font-size: 12px;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.3);
+  color: var(--text-faint);
 }
 
 .shot__frame img {
@@ -967,7 +1010,7 @@ a:hover .nav__logo-mark { transform: rotate(-10deg) scale(1.08); }
   font-size: 12.5px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.3);
+  color: var(--text-faint);
 }
 
 /* ---------- subpages ---------- */
@@ -1113,7 +1156,7 @@ a:hover .nav__logo-mark { transform: rotate(-10deg) scale(1.08); }
   font-size: 12px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.32);
+  color: var(--text-faint);
   margin-bottom: 16px;
 }
 
@@ -1140,7 +1183,7 @@ a:hover .nav__logo-mark { transform: rotate(-10deg) scale(1.08); }
 
 .download-note {
   text-align: center;
-  color: rgba(255, 255, 255, 0.35);
+  color: var(--text-faint);
   font-size: 13px;
   line-height: 1.8;
   padding: 0 6vw clamp(90px, 10vw, 140px);
@@ -1301,7 +1344,7 @@ a:hover .nav__logo-mark { transform: rotate(-10deg) scale(1.08); }
   padding: 7px 14px;
   border-radius: 999px;
   border: 1px solid var(--border);
-  background: rgba(255, 255, 255, 0.03);
+  background: var(--chip-bg);
   font-size: 12px;
   letter-spacing: 0.04em;
   color: var(--text-dim);
@@ -1346,12 +1389,12 @@ a:hover .nav__logo-mark { transform: rotate(-10deg) scale(1.08); }
   flex-direction: column;
   gap: 4px;
   font-size: 12.5px;
-  color: rgba(255, 255, 255, 0.35);
+  color: var(--text-faint);
 }
 
 .footer__info strong {
   font-weight: 600;
-  color: rgba(255, 255, 255, 0.6);
+  color: var(--text-mid);
 }
 
 .footer__bottom {
@@ -1361,7 +1404,7 @@ a:hover .nav__logo-mark { transform: rotate(-10deg) scale(1.08); }
   flex-wrap: wrap;
   padding-top: 26px;
   font-size: 13px;
-  color: rgba(255, 255, 255, 0.3);
+  color: var(--text-faint);
 }
 
 .footer__made {
@@ -1370,6 +1413,33 @@ a:hover .nav__logo-mark { transform: rotate(-10deg) scale(1.08); }
   background-clip: text;
   color: transparent;
 }
+
+/* ---------- theme toggle ---------- */
+
+.theme-toggle {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text-dim);
+  cursor: pointer;
+  transition: border-color 0.3s ease, color 0.3s ease, transform 0.4s ease;
+}
+
+.theme-toggle:hover {
+  border-color: rgba(168, 85, 247, 0.5);
+  color: var(--accent);
+  transform: rotate(20deg);
+}
+
+.theme-toggle svg { width: 18px; height: 18px; }
+.theme-toggle .icon-sun { display: none; }
+
+html[data-theme="dark"] .theme-toggle .icon-sun { display: block; }
+html[data-theme="dark"] .theme-toggle .icon-moon { display: none; }
 
 /* ---------- cursor ---------- */
 
@@ -1417,7 +1487,7 @@ a:hover .nav__logo-mark { transform: rotate(-10deg) scale(1.08); }
   place-items: center;
   border: 1px solid rgba(168, 85, 247, 0.4);
   border-radius: 50%;
-  background: rgba(18, 3, 42, 0.7);
+  background: var(--float-bg);
   backdrop-filter: blur(10px);
   color: var(--accent);
   font-size: 18px;

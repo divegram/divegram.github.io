@@ -3,6 +3,16 @@
 
   const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  /* ---------- theme toggle ---------- */
+  const themeToggle = document.getElementById('themeToggle');
+  if (themeToggle) {
+    themeToggle.addEventListener('click', () => {
+      const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+      document.documentElement.dataset.theme = next;
+      try { localStorage.setItem('dg-theme', next); } catch (e) {}
+    });
+  }
+
   /* ---------- smooth scroll (lenis) ---------- */
   const lenis = new Lenis({
     duration: 1.35,
