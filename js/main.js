@@ -115,11 +115,11 @@
   document.querySelectorAll('[data-reveal]').forEach((el) => {
     gsap.fromTo(
       el,
-      { y: 26, opacity: 0 },
+      { y: 22, opacity: 0 },
       {
         y: 0,
         opacity: 1,
-        duration: 0.8,
+        duration: 0.85,
         ease: 'power3.out',
         scrollTrigger: {
           trigger: el,
@@ -136,33 +136,33 @@
 
     tl.to('.hero__line-inner', {
       y: 0,
-      duration: 1.15,
-      stagger: 0.13,
+      duration: 1.2,
+      stagger: 0.15,
     })
-      .fromTo('.hero__badge', { y: -18, opacity: 0 }, { y: 0, opacity: 1, duration: 0.8 }, '-=0.85')
-      .fromTo('.hero__subtitle', { y: 26, opacity: 0 }, { y: 0, opacity: 1, duration: 0.8 }, '-=0.6')
-      .fromTo('.hero__actions', { y: 26, opacity: 0 }, { y: 0, opacity: 1, duration: 0.8 }, '-=0.55')
-      .fromTo('.hero__scroll', { opacity: 0 }, { opacity: 1, duration: 0.8 }, '-=0.4');
+      .fromTo('.hero__badge', { y: -16, opacity: 0 }, { y: 0, opacity: 1, duration: 0.9 }, '-=0.9')
+      .fromTo('.hero__subtitle', { y: 22, opacity: 0 }, { y: 0, opacity: 1, duration: 0.85 }, '-=0.65')
+      .fromTo('.hero__actions', { y: 22, opacity: 0 }, { y: 0, opacity: 1, duration: 0.85 }, '-=0.6')
+      .fromTo('.hero__scroll', { opacity: 0 }, { opacity: 1, duration: 0.9 }, '-=0.45');
 
     gsap.to('.hero__orb--1', {
-      x: 60, y: -40, duration: 9, ease: 'sine.inOut', yoyo: true, repeat: -1,
+      x: 50, y: -35, duration: 10, ease: 'sine.inOut', yoyo: true, repeat: -1,
     });
     gsap.to('.hero__orb--2', {
-      x: -50, y: 50, duration: 11, ease: 'sine.inOut', yoyo: true, repeat: -1,
+      x: -45, y: 45, duration: 12, ease: 'sine.inOut', yoyo: true, repeat: -1,
     });
     gsap.to('.hero__orb--3', {
-      x: 30, y: 30, scale: 1.15, duration: 8, ease: 'sine.inOut', yoyo: true, repeat: -1,
+      x: 25, y: 25, scale: 1.1, duration: 9, ease: 'sine.inOut', yoyo: true, repeat: -1,
     });
 
     /* hero parallax out on scroll */
     gsap.to('.hero__title, .hero__subtitle, .hero__badge', {
-      y: -70,
+      y: -60,
       ease: 'none',
       scrollTrigger: {
         trigger: '.hero',
         start: 'top top',
         end: 'bottom 30%',
-        scrub: 0.8,
+        scrub: 0.9,
       },
     });
   }
@@ -171,11 +171,11 @@
   gsap.utils.toArray('[data-card]').forEach((card, i) => {
     gsap.fromTo(
       card,
-      { y: 40, opacity: 0 },
+      { y: 36, opacity: 0 },
       {
         y: 0,
         opacity: 1,
-        duration: 0.8,
+        duration: 0.85,
         ease: 'power3.out',
         onComplete: () => gsap.set(card, { clearProps: 'transform' }),
         scrollTrigger: {
@@ -193,9 +193,9 @@
       opacity: 1,
       y: 0,
       scale: 1,
-      duration: 0.5,
+      duration: 0.55,
       ease: 'power3.out',
-      stagger: 0.12,
+      stagger: 0.13,
       scrollTrigger: {
         trigger: '.phrase',
         start: 'top 75%',
@@ -214,7 +214,7 @@
       { innerText: 0 },
       {
         innerText: target,
-        duration: 2,
+        duration: 2.2,
         ease: 'power2.out',
         snap: { innerText: 1 },
         scrollTrigger: {
@@ -222,7 +222,7 @@
           start: 'top 90%',
           toggleActions: 'play none none none',
           onEnter: () => {
-            gsap.fromTo(el, { scale: 0.85, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.7, ease: 'back.out(2)' });
+            gsap.fromTo(el, { scale: 0.88, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.75, ease: 'back.out(1.8)' });
           },
         },
         onUpdate() {
@@ -246,8 +246,8 @@
       gsap.killTweensOf(answer);
       gsap.fromTo(
         answer,
-        { height: 0, opacity: 0, y: -8 },
-        { height: 'auto', opacity: 1, y: 0, duration: 0.55, ease: 'power3.out' }
+        { height: 0, opacity: 0, y: -6 },
+        { height: 'auto', opacity: 1, y: 0, duration: 0.6, ease: 'power3.out' }
       );
     };
 
@@ -259,8 +259,8 @@
       gsap.to(answer, {
         height: 0,
         opacity: 0,
-        y: -8,
-        duration: 0.35,
+        y: -6,
+        duration: 0.38,
         ease: 'power2.in',
         onComplete: () => item.removeAttribute('open'),
       });
@@ -286,11 +286,11 @@
 
       gsap.fromTo(
         faqItems,
-        { y: 36, opacity: 0 },
+        { y: 32, opacity: 0 },
         {
           y: 0,
           opacity: 1,
-          duration: 0.8,
+          duration: 0.85,
           ease: 'power3.out',
           stagger: 0.1,
           onComplete: () => gsap.set(faqItems, { clearProps: 'transform' }),
@@ -358,11 +358,11 @@
   /* ---------- footer reveal ---------- */
   gsap.fromTo(
     '.footer',
-    { y: 36, opacity: 0 },
+    { y: 32, opacity: 0 },
     {
       y: 0,
       opacity: 1,
-      duration: 1,
+      duration: 1.1,
       ease: 'power3.out',
       scrollTrigger: {
         trigger: '.footer',
