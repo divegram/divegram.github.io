@@ -23,6 +23,10 @@ if (canvas) init();
 function init() {
   console.info('[divegram] phone3d v7 загружен');
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduced) {
+    canvas.remove();
+    return;
+  }
 
   /* ---------- renderer ---------- */
   let renderer;
@@ -94,216 +98,20 @@ function init() {
   const maxAniso = renderer.capabilities.getMaxAnisotropy();
 
   const screens = [1, 2, 3].map((n) => {
-    const tex = loader.load(`img/screens/screen-${n}.png`);
+    const tex = loader.load(`img/screens/screen-${n}.jpg`);
     tex.colorSpace = THREE.SRGBColorSpace;
     tex.anisotropy = maxAniso;
     return tex;
   });
 
-  const logoTex = loader.load('img/logo.svg');
-  logoTex.colorSpace = THREE.SRGBColorSpace;
-  logoTex.anisotropy = maxAniso;
-
-  const sheenCanvas = document.createElement('canvas');
-  sheenCanvas.width = 256;
-  sheenCanvas.height = 256;
-  const sctx = sheenCanvas.getContext('2d');
-  const sg = sctx.createLinearGradient(0, 0, 256, 256);
-  sg.addColorStop(0.0, 'rgba(255,255,255,0)');
-  sg.addColorStop(0.38, 'rgba(255,255,255,0)');
-  sg.addColorStop(0.5, 'rgba(255,255,255,0.20)');
-  sg.addColorStop(0.62, 'rgba(255,255,255,0)');
-  sg.addColorStop(1.0, 'rgba(255,255,255,0)');
-  sctx.fillStyle = sg;
-  sctx.fillRect(0, 0, 256, 256);
-  const sheenTex = new THREE.CanvasTexture(sheenCanvas);
-  sheenTex.wrapS = THREE.RepeatWrapping;
-  sheenTex.wrapT = THREE.RepeatWrapping;
-  sheenTex.repeat.set(1.4, 1.4);
-
-  /* ---------- phone root ---------- */
-  const W = 1.5;
   const H = 3.25;
-  const R = 0.24;
-  const D = 0.15;
-  const BEV = 0.016;
-  const FRONT = D / 2 + BEV;
-
-  const phone = new THREE.Group();
-  const spin = new THREE.Group();
-  phone.add(spin);
-  scene.add(phone);
-
-  /* встроенная модель (используется, пока нет своей или если она не загрузилась) */
-  const procedural = new THREE.Group();
-  spin.add(procedural);
-
-  const bodyGeo = new THREE.ExtrudeGeometry(roundedRect(W - BEV * 2, H - BEV * 2, R - BEV), {
-    depth: D,
-    bevelEnabled: true,
-    bevelThickness: BEV,
-    bevelSize: BEV,
-    bevelSegments: 3,
-    curveSegments: 48,
-  });
-  bodyGeo.translate(0, 0, -D / 2);
-
-  const backMat = new THREE.MeshPhysicalMaterial({
-    color: 0x32406b,
-    metalness: 0.7,
-    roughness: 0.42,
-    clearcoat: 0.2,
-    clearcoatRoughness: 0.6,
-  });
-  const frameMat = new THREE.MeshStandardMaterial({ color: 0xb3bdd8, metalness: 1, roughness: 0.3 });
-  procedural.add(new THREE.Mesh(bodyGeo, [backMat, frameMat]));
-
-  const bezel = new THREE.Mesh(
-    screenGeometry(W - 0.02, H - 0.02, R - 0.01),
-    new THREE.MeshBasicMaterial({ color: 0x020104 })
-  );
-  bezel.position.z = FRONT + 0.001;
-  procedural.add(bezel);
-
   const SW = 1.42;
   const SH = SW / (582 / 1280);
   const SR = 0.19;
-  const screenMat = new THREE.MeshBasicMaterial({ map: screens[0], toneMapped: false });
-  screenMat.name = 'screen';
-  const screen = new THREE.Mesh(screenGeometry(SW, SH, SR), screenMat);
-  screen.name = 'Screen';
-  screen.position.z = FRONT + 0.003;
-  procedural.add(screen);
-
-  const sheen = new THREE.Mesh(
-    screenGeometry(SW, SH, SR),
-    new THREE.MeshBasicMaterial({
-      map: sheenTex,
-      transparent: true,
-      depthWrite: false,
-      toneMapped: false,
-      blending: THREE.AdditiveBlending,
-    })
-  );
-  sheen.name = 'Sheen';
-  sheen.position.z = FRONT + 0.005;
-  procedural.add(sheen);
-
-  const island = new THREE.Mesh(
-    new THREE.CapsuleGeometry(0.048, 0.25, 6, 24),
-    new THREE.MeshBasicMaterial({ color: 0x000000 })
-  );
-  island.rotation.z = Math.PI / 2;
-  island.position.set(0, SH / 2 - 0.1, FRONT + 0.007);
-  procedural.add(island);
-
-  const bandMat = new THREE.MeshBasicMaterial({ color: 0x1a2038 });
-  [
-    [-W / 2 - 0.001, H / 2 - 0.55],
-    [W / 2 + 0.001, H / 2 - 0.55],
-    [-W / 2 - 0.001, -H / 2 + 0.55],
-    [W / 2 + 0.001, -H / 2 + 0.55],
-  ].forEach(([x, y]) => {
-    const band = new THREE.Mesh(new THREE.BoxGeometry(0.004, 0.012, D + 0.02), bandMat);
-    band.position.set(x, y, 0);
-    procedural.add(band);
-  });
-
-  const btnMat = new THREE.MeshStandardMaterial({ color: 0x9aa6c6, metalness: 1, roughness: 0.3 });
-  [
-    [-W / 2, 0.88, 0.14],
-    [-W / 2, 0.58, 0.26],
-    [-W / 2, 0.22, 0.26],
-    [W / 2, 0.62, 0.44],
-    [W / 2, -0.5, 0.2],
-  ].forEach(([x, y, len]) => {
-    const b = new THREE.Mesh(new THREE.BoxGeometry(0.03, len, 0.06), btnMat);
-    b.position.set(x, y, 0);
-    procedural.add(b);
-  });
-
-  const back = new THREE.Group();
-  back.rotation.y = Math.PI;
-  back.position.z = -FRONT;
-  procedural.add(back);
-
-  const PL_W = W - 0.09;
-  const PL_H = 0.86;
-  const PL_Y = H / 2 - 0.045 - PL_H / 2;
-  const PL_D = 0.05;
-
-  const plateau = new THREE.Mesh(
-    new THREE.ExtrudeGeometry(roundedRect(PL_W, PL_H, 0.18), {
-      depth: PL_D,
-      bevelEnabled: true,
-      bevelThickness: 0.01,
-      bevelSize: 0.01,
-      bevelSegments: 4,
-      curveSegments: 40,
-    }),
-    new THREE.MeshPhysicalMaterial({
-      color: 0x3d4c7d,
-      metalness: 0.6,
-      roughness: 0.34,
-      clearcoat: 0.5,
-      clearcoatRoughness: 0.3,
-    })
-  );
-  plateau.position.set(0, PL_Y, 0);
-  back.add(plateau);
-
-  const ringMat = new THREE.MeshStandardMaterial({ color: 0xc5cde3, metalness: 1, roughness: 0.18 });
-  const glassMat = new THREE.MeshPhysicalMaterial({
-    color: 0x05040c,
-    metalness: 0.2,
-    roughness: 0.03,
-    clearcoat: 1,
-    clearcoatRoughness: 0.02,
-  });
-  const irisMat = new THREE.MeshStandardMaterial({
-    color: 0x120a2c,
-    emissive: 0x4a2a9a,
-    emissiveIntensity: 0.55,
-    metalness: 0.2,
-    roughness: 0.1,
-  });
-  const glintMat = new THREE.MeshBasicMaterial({ color: 0xd9c8ff });
-  const flashMat = new THREE.MeshBasicMaterial({ color: 0xfff1cf });
-  const blackMat = new THREE.MeshBasicMaterial({ color: 0x000000 });
-  const zTop = PL_D + 0.01;
-
-  function disc(radius, height, mat, x, y, z) {
-    const m = new THREE.Mesh(new THREE.CylinderGeometry(radius, radius, height, 56), mat);
-    m.rotation.x = Math.PI / 2;
-    m.position.set(x, PL_Y + y, z + height / 2);
-    back.add(m);
-  }
-
-  [
-    [-0.4, 0.2],
-    [-0.4, -0.2],
-    [-0.06, 0],
-  ].forEach(([lx, ly]) => {
-    disc(0.17, 0.05, ringMat, lx, ly, zTop);
-    disc(0.14, 0.056, glassMat, lx, ly, zTop);
-    disc(0.075, 0.06, irisMat, lx, ly, zTop);
-    disc(0.02, 0.064, glintMat, lx + 0.035, ly + 0.035, zTop);
-  });
-
-  disc(0.05, 0.02, flashMat, 0.34, 0.22, zTop);
-  disc(0.062, 0.02, glassMat, 0.34, -0.2, zTop);
-  disc(0.018, 0.02, blackMat, 0.54, 0.24, zTop);
-
-  const logo = new THREE.Mesh(
-    new THREE.PlaneGeometry(0.56, 0.56),
-    new THREE.MeshBasicMaterial({ map: logoTex, transparent: true, toneMapped: false })
-  );
-  logo.position.set(0, -0.32, 0.003);
-  back.add(logo);
 
   /* ---------- своя модель (glb / gltf / fbx) ---------- */
   let screenTextures = screens;
-  let screenMaterials = [screenMat];
+  let screenMaterials = [];
   let currentScreen = 0;
 
   function applyScreen() {
@@ -452,13 +260,11 @@ function init() {
       console.warn('[divegram] экран в модели не найден, использую плоскость. Имена смотри выше.');
     }
 
-    procedural.visible = false;
     spin.add(outer);
     applyScreen();
-    usingCustom = true;
+    intro = 0;
   }
 
-  let usingCustom = false;
   fetchModel().then((m) => {
     if (m) useCustomModel(m);
   });
@@ -561,7 +367,7 @@ function init() {
   /* ---------- loop ---------- */
   let P = 0;
   let time = 0;
-  let intro = reduced ? 1 : 0;
+  let intro = 0;
   let last = performance.now();
 
   function tick(now) {
@@ -573,7 +379,7 @@ function init() {
 
     const target = progressAt(window.scrollY);
     const vel = target - P;
-    P += vel * (reduced ? 1 : 1 - Math.exp(-dt * 6));
+    P += vel * (1 - Math.exp(-dt * 6));
 
     /* S — гладкая "координата скролла" (0 hero, 1 about, 2 features, 3 конец).
        ВСЕ параметры — плавные функции от S без углов, поэтому нет резких отскоков,
@@ -631,8 +437,6 @@ function init() {
     /* скрин меняется, пока телефон повёрнут задней стороной (S = 0.5, 1.5, 2.5) */
     setScreen(Math.floor(S + 0.5) % screens.length);
 
-    sheenTex.offset.x = spin.rotation.y * 0.35;
-    sheenTex.offset.y = spin.rotation.x * 0.5;
 
     pinkLight.position.x = -4 + Math.sin(time * 0.5) * 1.4;
     violetLight.position.y = -2 + Math.cos(time * 0.4) * 1.4;

@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="ru" data-theme="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>DiveGram — кастомный клиент Telegram</title>
   <meta name="description" content="Divegram — неофициальный клиент Telegram, потому что делать было нечего.">
+  <script>try { document.documentElement.dataset.theme = localStorage.getItem('dg-theme') || 'dark'; } catch {}</script>
   <link rel="icon" type="image/svg+xml" href="img/logo.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -21,6 +22,14 @@
   </script>
 </head>
 <body>
+  <div class="site-loader" id="siteLoader" role="status" aria-label="Загрузка DiveGram" hidden>
+    <span class="site-loader__wordmark">divegram</span>
+    <div class="site-loader__track" role="progressbar" aria-label="Загрузка страницы" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+      <span class="site-loader__fill" id="siteLoaderFill"></span>
+    </div>
+  </div>
+  <script src="/js/loader.js"></script>
+
 
   <!-- scroll progress -->
   <div class="progress" id="progress" aria-hidden="true"></div>
@@ -36,11 +45,12 @@
       <span class="nav__logo-mark"><img src="img/logo.svg" alt="" class="nav__logo-img" onerror="this.remove()"></span>
       <span class="nav__logo-text">divegram</span>
     </a>
-    <nav class="nav__links">
+    <nav class="nav__links" aria-label="Основная навигация">
       <a href="#about" class="nav__link" data-hover>о проекте</a>
       <a href="#features" class="nav__link" data-hover>возможности</a>
       <a href="/download" class="nav__link" data-hover>скачать</a>
       <a href="/developers" class="nav__link" data-hover>разработчики</a>
+      <a href="/supporters" class="nav__link" data-hover>поддержали</a>
       <a href="/faq" class="nav__link" data-hover>faq</a>
     </nav>
     <div class="nav__actions">
@@ -50,19 +60,20 @@
       </button>
             <a href="https://t.me/divegram" target="_blank" rel="noopener" class="btn btn--ghost btn--sm" data-hover>тгк клиента</a>
       <a href="/download" class="btn btn--solid btn--sm" data-hover>скачать</a>
-      <button class="nav__burger" id="burger" aria-label="открыть меню" aria-expanded="false">
+      <button class="nav__burger" id="burger" aria-label="открыть меню" aria-controls="mobileMenu" aria-expanded="false">
         <span></span><span></span><span></span>
       </button>
     </div>
   </header>
 
   <!-- mobile menu -->
-  <div class="mobile-menu" id="mobileMenu">
-    <nav class="mobile-menu__links">
+  <div class="mobile-menu" id="mobileMenu" inert>
+    <nav class="mobile-menu__links" aria-label="Мобильная навигация">
       <a href="#about" class="mobile-menu__link">о проекте</a>
       <a href="#features" class="mobile-menu__link">возможности</a>
       <a href="/download" class="mobile-menu__link">скачать</a>
       <a href="/developers" class="mobile-menu__link">разработчики</a>
+      <a href="/supporters" class="mobile-menu__link">поддержали</a>
       <a href="/faq" class="mobile-menu__link">faq</a>
       <a href="https://t.me/divegram" target="_blank" rel="noopener" class="mobile-menu__link mobile-menu__link--btn">тгк клиента</a>
     </nav>
@@ -244,21 +255,21 @@
       <figure class="shot" data-card>
         <div class="shot__frame">
           <span class="shot__placeholder">скрин скоро</span>
-          <img loading="lazy" src="img/screens/screen-1.png" alt="скриншот главного экрана" onerror="this.remove()">
+          <img loading="lazy" src="img/screens/screen-1.jpg" alt="скриншот главного экрана" onerror="this.remove()">
         </div>
         <figcaption class="shot__caption">удаленные сообщение</figcaption>
       </figure>
       <figure class="shot" data-card>
         <div class="shot__frame">
           <span class="shot__placeholder">скрин скоро</span>
-          <img loading="lazy" src="img/screens/screen-2.png" alt="скриншот списка чатов" onerror="this.remove()">
+          <img loading="lazy" src="img/screens/screen-2.jpg" alt="скриншот списка чатов" onerror="this.remove()">
         </div>
         <figcaption class="shot__caption">удаление неактивных чатов</figcaption>
       </figure>
       <figure class="shot" data-card>
         <div class="shot__frame">
           <span class="shot__placeholder">скрин скоро</span>
-          <img loading="lazy" src="img/screens/screen-3.png" alt="скриншот настроек" onerror="this.remove()">
+          <img loading="lazy" src="img/screens/screen-3.jpg" alt="скриншот настроек" onerror="this.remove()">
         </div>
         <figcaption class="shot__caption">встроенный прокси без VPN</figcaption>
       </figure>
@@ -311,6 +322,7 @@
         <span>обновлено 20.08.2026</span>
       </div>
       <div class="footer__links">
+        <a href="/supporters" class="btn btn--ghost btn--sm" data-hover>поддержали</a>
         <a href="/faq" class="btn btn--ghost btn--sm" data-hover>faq</a>
       <a href="https://t.me/divegram" target="_blank" rel="noopener" class="btn btn--ghost btn--sm" data-hover>тгк клиента</a>
         <a href="/download" class="btn btn--solid btn--sm" data-hover>скачать</a>
@@ -333,6 +345,5 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <script src="https://unpkg.com/lenis@1.1.14/dist/lenis.min.js"></script>
   <script src="js/main.js"></script>
-  <script type="module" src="js/phone3d.v7.js?v=7"></script>
 </body>
 </html>
