@@ -29,8 +29,11 @@ if (loader && fill) {
   setTimeout(finish, 6000);
 }
 
-if (document.getElementById('phoneCanvas') && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-  window.addEventListener('load', () => {
-    import('/js/phone3d.v7.js?v=8').catch((error) => console.warn('[divegram] 3D-модель не загрузилась', error));
-  }, { once: true });
-}
+const loadPhone = () => {
+  if (document.getElementById('phoneCanvas') && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    import('/js/phone3d.v7.js?v=9').catch((error) => console.warn('[divegram] 3D-модель не загрузилась', error));
+  }
+};
+
+if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', loadPhone, { once: true });
+else loadPhone();
