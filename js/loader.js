@@ -21,7 +21,7 @@ if (loader && fill) {
     fill.parentElement.setAttribute('aria-valuenow', '100');
     setTimeout(() => {
       document.documentElement.classList.remove('is-loading');
-      setTimeout(() => loader.remove(), 240);
+      setTimeout(() => loader.remove(), 650);
     }, 100);
   };
 

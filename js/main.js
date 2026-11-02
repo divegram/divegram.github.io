@@ -1,4 +1,8 @@
 (() => {
+  window.addEventListener('pageshow', (event) => {
+    if (event.persisted) window.scrollTo(0, 0);
+  });
+
   /* ---------- theme toggle ---------- */
   const themeToggle = document.getElementById('themeToggle');
   if (themeToggle) {
