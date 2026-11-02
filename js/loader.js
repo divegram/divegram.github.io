@@ -31,6 +31,6 @@ if (loader && fill) {
 
 if (document.getElementById('phoneCanvas') && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
   window.addEventListener('load', () => {
-    import('/js/phone3d.v7.js?v=7').catch((error) => console.warn('[divegram] 3D-модель не загрузилась', error));
+    import('/js/phone3d.v7.js?v=8').catch((error) => console.warn('[divegram] 3D-модель не загрузилась', error));
   }, { once: true });
 }

@@ -65,6 +65,11 @@ function init() {
   violetLight.position.set(4, -2, 3.5);
   scene.add(violetLight);
 
+  const phone = new THREE.Group();
+  const spin = new THREE.Group();
+  phone.add(spin);
+  scene.add(phone);
+
   /* ---------- helpers ---------- */
   function roundedRect(w, h, r) {
     const s = new THREE.Shape();
