@@ -10,6 +10,7 @@ ROUTES = {
     "/developers": "developers.html",
     "/supporters": "supporters.html",
     "/faq": "faq.html",
+    "/privacy": "privacy.html",
 }
 
 

@@ -5,7 +5,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>DiveGram — кастомный клиент Telegram</title>
   <meta name="description" content="Divegram — неофициальный клиент Telegram, потому что делать было нечего.">
-  <script>try { document.documentElement.dataset.theme = localStorage.getItem('dg-theme') || 'dark'; } catch {}</script>
+  <link rel="canonical" href="https://divegram.pages.dev/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="DiveGram">
+  <meta property="og:locale" content="ru_RU">
+  <meta property="og:title" content="DiveGram — кастомный клиент Telegram">
+  <meta property="og:description" content="Divegram — неофициальный клиент Telegram, потому что делать было нечего.">
+  <meta property="og:url" content="https://divegram.pages.dev/">
+  <meta property="og:image" content="https://divegram.pages.dev/img/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="DiveGram — кастомный клиент Telegram">
+  <meta name="twitter:description" content="Divegram — неофициальный клиент Telegram, потому что делать было нечего.">
+  <meta name="twitter:image" content="https://divegram.pages.dev/img/og.png">
+  <script src="/js/theme.js"></script>
   <link rel="icon" type="image/svg+xml" href="img/logo.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -28,7 +42,7 @@
       <span class="site-loader__fill" id="siteLoaderFill"></span>
     </div>
   </div>
-  <script src="/js/loader.js?v=2"></script>
+  <script src="/js/loader.js?v=3"></script>
 
 
   <!-- scroll progress -->
@@ -42,7 +56,7 @@
   <!-- navbar -->
   <header class="nav" id="nav">
     <a href="#" class="nav__logo" data-hover>
-      <span class="nav__logo-mark"><img src="img/logo.svg" alt="" class="nav__logo-img" onerror="this.remove()"></span>
+      <span class="nav__logo-mark"><img src="img/logo.svg" alt="" class="nav__logo-img" data-hide-on-error></span>
       <span class="nav__logo-text">divegram</span>
     </a>
     <nav class="nav__links" aria-label="Основная навигация">
@@ -255,21 +269,21 @@
       <figure class="shot" data-card>
         <div class="shot__frame">
           <span class="shot__placeholder">скрин скоро</span>
-          <img loading="lazy" src="img/screens/screen-1.jpg" alt="скриншот главного экрана" onerror="this.remove()">
+          <img loading="lazy" src="img/screens/screen-1.jpg" alt="скриншот главного экрана" data-hide-on-error>
         </div>
         <figcaption class="shot__caption">удаленные сообщение</figcaption>
       </figure>
       <figure class="shot" data-card>
         <div class="shot__frame">
           <span class="shot__placeholder">скрин скоро</span>
-          <img loading="lazy" src="img/screens/screen-2.jpg" alt="скриншот списка чатов" onerror="this.remove()">
+          <img loading="lazy" src="img/screens/screen-2.jpg" alt="скриншот списка чатов" data-hide-on-error>
         </div>
         <figcaption class="shot__caption">удаление неактивных чатов</figcaption>
       </figure>
       <figure class="shot" data-card>
         <div class="shot__frame">
           <span class="shot__placeholder">скрин скоро</span>
-          <img loading="lazy" src="img/screens/screen-3.jpg" alt="скриншот настроек" onerror="this.remove()">
+          <img loading="lazy" src="img/screens/screen-3.jpg" alt="скриншот настроек" data-hide-on-error>
         </div>
         <figcaption class="shot__caption">встроенный прокси без VPN</figcaption>
       </figure>
@@ -314,7 +328,7 @@
   <footer class="footer">
     <div class="footer__top">
       <a href="#" class="nav__logo" data-hover>
-        <span class="nav__logo-mark"><img src="img/logo.svg" alt="" class="nav__logo-img" onerror="this.remove()"></span>
+        <span class="nav__logo-mark"><img src="img/logo.svg" alt="" class="nav__logo-img" data-hide-on-error></span>
         <span class="nav__logo-text">divegram</span>
       </a>
       <div class="footer__info">
@@ -330,7 +344,8 @@
     <div class="footer__bottom">
       <span>© 2026 divegram · неофициальный проект, не связан с telegram</span>
       <span class="footer__made">сделано потому что делать было нечего</span>
-      <span>обновлено 02.11.2026</span>
+      <a href="/privacy" class="footer__policy">политика конфиденциальности</a>
+      <span>обновлено 05.11.2026</span>
     </div>
   </footer>
 
@@ -340,6 +355,15 @@
 
   <!-- back to top -->
   <button class="to-top" id="toTop" aria-label="наверх">↑</button>
+
+  <!-- cookie notice -->
+  <div class="cookie" id="cookieBanner" role="dialog" aria-label="Уведомление о cookie" hidden>
+    <p class="cookie__text">сайт не использует cookie и не ведёт аналитику. в localStorage браузера хранится только выбранная тема. <a href="/privacy">политика конфиденциальности</a></p>
+    <div class="cookie__actions">
+      <button type="button" class="btn btn--ghost btn--sm" id="cookieDecline" data-hover>отклонить</button>
+      <button type="button" class="btn btn--solid btn--sm" id="cookieAccept" data-hover>принять</button>
+    </div>
+  </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>

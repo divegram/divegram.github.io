@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Политика конфиденциальности — Divegram</title>
+  <meta name="description" content="Политика конфиденциальности сайта Divegram: какие данные хранятся в браузере, какие сервисы получают технические данные.">
+  <link rel="canonical" href="https://divegram.pages.dev/privacy">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="DiveGram">
+  <meta property="og:locale" content="ru_RU">
+  <meta property="og:title" content="Политика конфиденциальности — Divegram">
+  <meta property="og:description" content="Политика конфиденциальности сайта Divegram: какие данные хранятся в браузере, какие сервисы получают технические данные.">
+  <meta property="og:url" content="https://divegram.pages.dev/privacy">
+  <meta property="og:image" content="https://divegram.pages.dev/img/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Политика конфиденциальности — Divegram">
+  <meta name="twitter:description" content="Политика конфиденциальности сайта Divegram: какие данные хранятся в браузере, какие сервисы получают технические данные.">
+  <meta name="twitter:image" content="https://divegram.pages.dev/img/og.png">
+  <link rel="icon" type="image/svg+xml" href="/img/logo.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;800&family=Manrope:wght@300;400;500;600;700;800&family=Marck+Script&display=swap" rel="stylesheet">
+  <script src="/js/theme.js"></script>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <div class="site-loader" id="siteLoader" role="status" aria-label="Загрузка DiveGram" hidden>
+    <span class="site-loader__wordmark">divegram</span>
+    <div class="site-loader__track" role="progressbar" aria-label="Загрузка страницы" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+      <span class="site-loader__fill" id="siteLoaderFill"></span>
+    </div>
+  </div>
+  <script src="/js/loader.js"></script>
+
+
+  <!-- scroll progress -->
+  <div class="progress" id="progress" aria-hidden="true"></div>
+
+  <!-- ambient glow -->
+  <div class="bg-glow" aria-hidden="true"></div>
+  <div class="grain" aria-hidden="true"></div>
+
+  <!-- navbar -->
+  <header class="nav" id="nav">
+    <a href="/" class="nav__logo" data-hover>
+      <span class="nav__logo-mark"><img src="/img/logo.svg" alt="" class="nav__logo-img" data-hide-on-error></span>
+      <span class="nav__logo-text">divegram</span>
+    </a>
+    <nav class="nav__links" aria-label="Основная навигация">
+      <a href="/#about" class="nav__link" data-hover>о проекте</a>
+      <a href="/#features" class="nav__link" data-hover>возможности</a>
+      <a href="/download" class="nav__link" data-hover>скачать</a>
+      <a href="/developers" class="nav__link" data-hover>разработчики</a>
+      <a href="/supporters" class="nav__link" data-hover>поддержали</a>
+      <a href="/faq" class="nav__link" data-hover>faq</a>
+    </nav>
+    <div class="nav__actions">
+      <button class="theme-toggle" id="themeToggle" aria-label="сменить тему">
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.9 4.9l1.4 1.4m11.3 11.3 1.4 1.4M2 12h2m16 0h2M4.9 19.1l1.4-1.4m11.3-11.3 1.4-1.4"/></svg>
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg>
+      </button>
+            <a href="https://t.me/divegram" target="_blank" rel="noopener" class="btn btn--ghost btn--sm" data-hover>тгк клиента</a>
+      <a href="/download" class="btn btn--solid btn--sm" data-hover>скачать</a>
+      <button class="nav__burger" id="burger" aria-label="открыть меню" aria-controls="mobileMenu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- mobile menu -->
+  <div class="mobile-menu" id="mobileMenu" inert>
+    <nav class="mobile-menu__links" aria-label="Мобильная навигация">
+      <a href="/#about" class="mobile-menu__link">о проекте</a>
+      <a href="/#features" class="mobile-menu__link">возможности</a>
+      <a href="/download" class="mobile-menu__link">скачать</a>
+      <a href="/developers" class="mobile-menu__link">разработчики</a>
+      <a href="/supporters" class="mobile-menu__link">поддержали</a>
+      <a href="/faq" class="mobile-menu__link">faq</a>
+      <a href="https://t.me/divegram" target="_blank" rel="noopener" class="mobile-menu__link mobile-menu__link--btn">тгк клиента</a>
+    </nav>
+  </div>
+
+  <!-- page hero -->
+  <section class="page-hero">
+    <div class="page-hero__orb page-hero__orb--1" aria-hidden="true"></div>
+    <div class="page-hero__orb page-hero__orb--2" aria-hidden="true"></div>
+    <span class="hero__badge" data-reveal>
+      <span class="hero__badge-dot"></span>
+      обновлено 05.11.2026
+    </span>
+    <p class="section-tag" data-reveal>документы</p>
+    <h1 class="section-title page-hero__title" data-reveal>политика <em>конфиденциальности</em></h1>
+    <p class="page-hero__subtitle" data-reveal>
+      коротко: сайт ничего о тебе не собирает.<br>
+      ниже — подробности.
+    </p>
+  </section>
+
+  <!-- policy -->
+  <section class="legal">
+    <div class="legal__item">
+      <h2>1. о чём этот документ</h2>
+      <p>эта политика описывает, как сайт <strong>divegram.pages.dev</strong> (информационный сайт неофициального клиента telegram — divegram) обращается с данными посетителей. она относится только к сайту. приложение divegram — отдельный продукт, вопросы по нему задавай в <a href="https://t.me/divegram" target="_blank" rel="noopener">тгк клиента</a>.</p>
+    </div>
+
+    <div class="legal__item">
+      <h2>2. какие данные мы собираем</h2>
+      <p>на сайте нет регистрации, форм, комментариев и других полей ввода. мы не просим имя, email, телефон и любые другие персональные данные. мы не используем системы аналитики, рекламные пиксели и трекеры.</p>
+    </div>
+
+    <div class="legal__item">
+      <h2>3. cookie и localStorage</h2>
+      <p>сайт <strong>не устанавливает cookie</strong>. в localStorage твоего браузера хранятся два значения:</p>
+      <ul>
+        <li><code>dg-theme</code> — выбранная тема оформления (тёмная или светлая);</li>
+        <li><code>dg-consent</code> — твой выбор в уведомлении о cookie.</li>
+      </ul>
+      <p>эти данные лежат только на твоём устройстве и никуда не отправляются. удалить их можно в настройках браузера. если нажать «отклонить», тема сохраняться не будет и вернётся к тёмной при следующем визите.</p>
+    </div>
+
+    <div class="legal__item">
+      <h2>4. сторонние сервисы</h2>
+      <p>как и у любого сайта, часть ресурсов грузится не с нашего сервера. при загрузке эти сервисы получают технические данные запроса (ip-адрес, user-agent, время) и обрабатывают их по собственным правилам:</p>
+      <ul>
+        <li>cloudflare pages — хостинг сайта;</li>
+        <li>google fonts (fonts.googleapis.com, fonts.gstatic.com) — шрифты;</li>
+        <li>cdnjs.cloudflare.com, cdn.jsdelivr.net, unpkg.com — библиотеки gsap, lenis и three.js.</li>
+      </ul>
+      <p>ссылки на telegram и сайты разработчиков ведут на внешние ресурсы — у них свои политики.</p>
+    </div>
+
+    <div class="legal__item">
+      <h2>5. персональные данные</h2>
+      <p>сам сайт не собирает и не обрабатывает персональные данные посетителей. если ты напишешь нам в telegram, твои данные обрабатывает telegram по своим правилам; мы видим только то, что ты сам указал в профиле и сообщении, и используем это только чтобы ответить. мы не передаём эти данные третьим лицам.</p>
+    </div>
+
+    <div class="legal__item">
+      <h2>6. связь и изменения</h2>
+      <p>вопросы, просьбы уточнить или удалить данные — в <a href="https://t.me/divegram" target="_blank" rel="noopener">тгк клиента</a> или через <a href="/.well-known/security.txt">security.txt</a>. при изменении политики мы обновим дату вверху страницы.</p>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer__top">
+      <a href="/" class="nav__logo" data-hover>
+        <span class="nav__logo-mark"><img src="/img/logo.svg" alt="" class="nav__logo-img" data-hide-on-error></span>
+        <span class="nav__logo-text">divegram</span>
+      </a>
+      <div class="footer__info">
+        <span><strong>13.0.3</strong> · release</span>
+      </div>
+      <div class="footer__links">
+        <a href="/supporters" class="btn btn--ghost btn--sm" data-hover>поддержали</a>
+        <a href="/faq" class="btn btn--ghost btn--sm" data-hover>faq</a>
+        <a href="https://t.me/divegram" target="_blank" rel="noopener" class="btn btn--ghost btn--sm" data-hover>тгк клиента</a>
+        <a href="/download" class="btn btn--solid btn--sm" data-hover>скачать</a>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <span>© 2026 divegram · неофициальный проект, не связан с telegram</span>
+      <span class="footer__made">сделано потому что делать было нечего</span>
+      <a href="/privacy" class="footer__policy">политика конфиденциальности</a>
+      <span>обновлено 05.11.2026</span>
+    </div>
+  </footer>
+
+  <!-- cursor -->
+  <div class="cursor" id="cursor" aria-hidden="true"></div>
+  <div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
+
+  <!-- back to top -->
+  <button class="to-top" id="toTop" aria-label="наверх">↑</button>
+
+  <!-- cookie notice -->
+  <div class="cookie" id="cookieBanner" role="dialog" aria-label="Уведомление о cookie" hidden>
+    <p class="cookie__text">сайт не использует cookie и не ведёт аналитику. в localStorage браузера хранится только выбранная тема. <a href="/privacy">политика конфиденциальности</a></p>
+    <div class="cookie__actions">
+      <button type="button" class="btn btn--ghost btn--sm" id="cookieDecline" data-hover>отклонить</button>
+      <button type="button" class="btn btn--solid btn--sm" id="cookieAccept" data-hover>принять</button>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://unpkg.com/lenis@1.1.14/dist/lenis.min.js"></script>
+  <script src="/js/main.js"></script>
+</body>
+</html>
