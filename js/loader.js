@@ -1,3 +1,9 @@
+/* картинки с data-hide-on-error удаляются при ошибке загрузки (вместо inline onerror, который блокирует CSP) */
+document.addEventListener('error', (event) => {
+  const el = event.target;
+  if (el instanceof HTMLImageElement && el.hasAttribute('data-hide-on-error')) el.remove();
+}, true);
+
 const loader = document.getElementById('siteLoader');
 const fill = document.getElementById('siteLoaderFill');
 

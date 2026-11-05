@@ -9,8 +9,28 @@
     themeToggle.addEventListener('click', () => {
       const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
       document.documentElement.dataset.theme = next;
-      try { localStorage.setItem('dg-theme', next); } catch (e) {}
+      try { if (localStorage.getItem('dg-consent') !== 'declined') localStorage.setItem('dg-theme', next); } catch (e) {}
     });
+  }
+
+  /* ---------- cookie / localStorage notice ---------- */
+  const cookieBanner = document.getElementById('cookieBanner');
+  if (cookieBanner) {
+    let consent = null;
+    try { consent = localStorage.getItem('dg-consent'); } catch (e) {}
+    if (!consent) cookieBanner.hidden = false;
+
+    const saveConsent = (value) => {
+      try {
+        localStorage.setItem('dg-consent', value);
+        if (value === 'declined') localStorage.removeItem('dg-theme');
+        else localStorage.setItem('dg-theme', document.documentElement.dataset.theme || 'dark');
+      } catch (e) {}
+      cookieBanner.hidden = true;
+    };
+
+    document.getElementById('cookieAccept')?.addEventListener('click', () => saveConsent('accepted'));
+    document.getElementById('cookieDecline')?.addEventListener('click', () => saveConsent('declined'));
   }
 
   /* ---------- mobile menu ---------- */
