@@ -1,4 +1,5 @@
-/* 3D phone layer */
+/* 3D-телефон: только на компьютере (экран от 900px, мышь). На телефонах и планшетах его нет:
+   canvas скрыт, скрипт и модель (1.7 МБ) не загружаются. */
 .phone-canvas {
   position: fixed;
   top: 0;
@@ -11,91 +12,40 @@
   opacity: 0;
 }
 
-/* glass surfaces so the phone shows through softly */
-.card,
-.shot__frame,
-.faq__item {
-  -webkit-backdrop-filter: blur(14px) saturate(1.25);
-  backdrop-filter: blur(14px) saturate(1.25);
+@media (max-width: 899px), (hover: none), (pointer: coarse) {
+  .phone-canvas { display: none; }
 }
 
-/* living gradients on accented words */
-.hero__line-inner--accent,
-.section-title em,
-.hero__title em {
-  background: var(--grad);
-  background-size: 200% auto;
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  color: transparent;
-  animation: grad-flow 6s ease-in-out infinite;
-}
-
-/* hero: text on the left, phone on the right */
-@media (min-width: 900px) {
-  .hero {
+@media (min-width: 900px) and (hover: hover) and (pointer: fine) {
+  /* текст слева, телефон справа */
+  .has-phone .hero {
     align-items: flex-start;
     text-align: left;
     padding-left: 8vw;
     padding-right: 46vw;
   }
 
-  .hero__title {
-    font-size: clamp(42px, 6.2vw, 92px);
-  }
+  .has-phone .hero__title { font-size: clamp(42px, 6.2vw, 92px); }
+  .has-phone .hero__actions { justify-content: flex-start; }
+  .has-phone .hero__scroll { left: 8vw; transform: none; }
+  .has-phone .about__grid { margin-left: 36%; }
+  .has-phone .features__head { max-width: 46%; }
+  .has-phone .features__grid { max-width: 52%; grid-template-columns: repeat(2, 1fr); }
+  .has-phone .download { text-align: center; }
 
-  .hero__actions {
-    justify-content: flex-start;
-  }
-
-  .hero__scroll {
-    left: 8vw;
-    transform: none;
-  }
-
-  .about__grid {
-    margin-left: 36%;
-  }
-
-  .features__head {
-    max-width: 46%;
-  }
-
-  .features__grid {
-    max-width: 52%;
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .download {
-    text-align: center;
-  }
-}
-
-/* subtle glow ring that follows the phone section */
-.hero::after {
-  content: '';
-  position: absolute;
-  right: 14vw;
-  top: 50%;
-  width: 34vw;
-  height: 34vw;
-  transform: translateY(-50%);
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(224, 93, 181, 0.22), rgba(124, 76, 196, 0.1) 45%, transparent 70%);
-  filter: blur(30px);
-  pointer-events: none;
-  z-index: 0;
-}
-
-@media (max-width: 899px) {
-  .hero::after { display: none; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .hero__line-inner--accent,
-  .section-title em,
-  .hero__title em {
-    animation: none;
+  /* мягкое свечение за телефоном */
+  .has-phone .hero::after {
+    content: '';
+    position: absolute;
+    right: 14vw;
+    top: 50%;
+    width: 34vw;
+    height: 34vw;
+    transform: translateY(-50%);
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(224, 93, 181, 0.22), rgba(124, 76, 196, 0.1) 45%, transparent 70%);
+    filter: blur(30px);
+    pointer-events: none;
+    z-index: 0;
   }
 }

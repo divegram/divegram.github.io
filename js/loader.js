@@ -1,15 +1,25 @@
-/* картинки с data-hide-on-error удаляются при ошибке загрузки (вместо inline onerror, который блокирует CSP) */
+/* Картинки с data-hide-on-error удаляются при ошибке загрузки (inline onerror запрещён CSP) */
 document.addEventListener('error', (event) => {
   const el = event.target;
   if (el instanceof HTMLImageElement && el.hasAttribute('data-hide-on-error')) el.remove();
 }, true);
 
-const loader = document.getElementById('siteLoader');
-const fill = document.getElementById('siteLoaderFill');
+(() => {
+  const root = document.documentElement;
+  const loader = document.getElementById('siteLoader');
+  const fill = document.getElementById('siteLoaderFill');
 
-if (loader && fill) {
+  /* main.js ждёт это событие, чтобы запустить анимацию hero уже после того, как пропадёт загрузчик */
+  window.dgReady = false;
+  const markReady = () => {
+    window.dgReady = true;
+    document.dispatchEvent(new Event('dg:ready'));
+  };
+
+  if (!loader || !fill) { markReady(); return; }
+
   loader.hidden = false;
-  document.documentElement.classList.add('is-loading');
+  root.classList.add('is-loading');
 
   let progress = 0;
   const timer = setInterval(() => {
@@ -26,20 +36,39 @@ if (loader && fill) {
     fill.style.width = '100%';
     fill.parentElement.setAttribute('aria-valuenow', '100');
     setTimeout(() => {
-      document.documentElement.classList.remove('is-loading');
+      root.classList.remove('is-loading');
+      markReady();
       setTimeout(() => loader.remove(), 650);
-    }, 100);
+    }, 120);
   };
 
-  window.addEventListener('load', finish, { once: true });
-  setTimeout(finish, 6000);
-}
+  /* ждём шрифты (важно для анимации заголовка) и DOM, а не все картинки; страховочный таймер 2.5 с */
+  const fontsReady = document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve();
+  const domReady = document.readyState === 'loading'
+    ? new Promise((resolve) => document.addEventListener('DOMContentLoaded', resolve, { once: true }))
+    : Promise.resolve();
 
-const loadPhone = () => {
-  if (document.getElementById('phoneCanvas') && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    import('/js/phone3d.v7.js?v=9').catch((error) => console.warn('[divegram] 3D-модель не загрузилась', error));
-  }
-};
+  Promise.all([fontsReady, domReady]).then(finish, finish);
+  setTimeout(finish, 2500);
+})();
 
-if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', loadPhone, { once: true });
-else loadPhone();
+/* 3D-телефон: только компьютер (от 900px, мышь), без reduced-motion. На телефонах ничего не грузится. */
+(() => {
+  const desktop = window.matchMedia('(min-width: 900px) and (hover: hover) and (pointer: fine)').matches;
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const root = document.documentElement;
+  if (!desktop || reduced) return;
+
+  root.classList.add('has-phone'); /* сразу резервируем место справа, чтобы раскладка не прыгала */
+
+  const load = () => {
+    if (!document.getElementById('phoneCanvas')) { root.classList.remove('has-phone'); return; }
+    import('/js/phone3d.v7.js?v=2').catch((error) => {
+      root.classList.remove('has-phone');
+      console.warn('[divegram] 3D-модель не загрузилась', error);
+    });
+  };
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', load, { once: true });
+  else load();
+})();

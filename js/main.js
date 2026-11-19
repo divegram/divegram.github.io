@@ -1,409 +1,368 @@
 (() => {
-  window.addEventListener('pageshow', (event) => {
-    if (event.persisted) window.scrollTo(0, 0);
-  });
+  'use strict';
 
-  /* ---------- theme toggle ---------- */
-  const themeToggle = document.getElementById('themeToggle');
-  if (themeToggle) {
-    themeToggle.addEventListener('click', () => {
-      const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
-      document.documentElement.dataset.theme = next;
-      try { if (localStorage.getItem('dg-consent') !== 'declined') localStorage.setItem('dg-theme', next); } catch (e) {}
-    });
-  }
-
-  /* ---------- cookie / localStorage notice ---------- */
-  const cookieBanner = document.getElementById('cookieBanner');
-  if (cookieBanner) {
-    let consent = null;
-    try { consent = localStorage.getItem('dg-consent'); } catch (e) {}
-    if (!consent) cookieBanner.hidden = false;
-
-    const saveConsent = (value) => {
-      try {
-        localStorage.setItem('dg-consent', value);
-        if (value === 'declined') localStorage.removeItem('dg-theme');
-        else localStorage.setItem('dg-theme', document.documentElement.dataset.theme || 'dark');
-      } catch (e) {}
-      cookieBanner.hidden = true;
-    };
-
-    document.getElementById('cookieAccept')?.addEventListener('click', () => saveConsent('accepted'));
-    document.getElementById('cookieDecline')?.addEventListener('click', () => saveConsent('declined'));
-  }
-
-  /* ---------- mobile menu ---------- */
-  const burger = document.getElementById('burger');
-  const mobileMenu = document.getElementById('mobileMenu');
-  if (burger && mobileMenu) {
-    const closeMenu = () => {
-      burger.classList.remove('nav__burger--open');
-      mobileMenu.classList.remove('mobile-menu--open');
-      burger.setAttribute('aria-expanded', 'false');
-      mobileMenu.inert = true;
-      document.body.style.overflow = '';
-      burger.focus();
-    };
-
-    burger.addEventListener('click', () => {
-      const open = mobileMenu.classList.toggle('mobile-menu--open');
-      burger.classList.toggle('nav__burger--open', open);
-      burger.setAttribute('aria-expanded', String(open));
-      mobileMenu.inert = !open;
-      document.body.style.overflow = open ? 'hidden' : '';
-      if (open) mobileMenu.querySelector('a')?.focus();
-      else burger.focus();
-    });
-
-    mobileMenu.querySelectorAll('a').forEach((link) => link.addEventListener('click', closeMenu));
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && !mobileMenu.inert) closeMenu();
-    });
-  }
-
-  if (!window.gsap || !window.ScrollTrigger || !window.Lenis) return;
-  document.documentElement.classList.add('motion-ready');
-  gsap.registerPlugin(ScrollTrigger);
+  const root = document.documentElement;
+  const $ = (selector, scope = document) => scope.querySelector(selector);
+  const $$ = (selector, scope = document) => Array.from(scope.querySelectorAll(selector));
 
   const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  /* ---------- smooth scroll (lenis) ---------- */
-  const lenis = new Lenis({
-    duration: 0.95,
-    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-    smoothWheel: !prefersReduced,
-    touchMultiplier: 1.6,
-  });
-
-  lenis.on('scroll', ScrollTrigger.update);
-
-  gsap.ticker.add((time) => lenis.raf(time * 1000));
-  gsap.ticker.lagSmoothing(0);
-
-  ScrollTrigger.scrollerProxy(document.body, {
-    scrollTop(value) {
-      if (arguments.length) lenis.scrollTo(value, { immediate: true });
-      return lenis.scroll;
-    },
-    getBoundingClientRect() {
-      return {
-        top: 0,
-        left: 0,
-        width: window.innerWidth,
-        height: window.innerHeight,
-      };
-    },
-  });
-
-  /* anchor links through lenis */
-  document.querySelectorAll('a[href^="#"]').forEach((link) => {
-    link.addEventListener('click', (e) => {
-      const href = link.getAttribute('href');
-      if (!href || href === '#') return;
-      const target = document.querySelector(href);
-      if (!target) return;
-      e.preventDefault();
-      lenis.scrollTo(target, { offset: -80, duration: 1, immediate: prefersReduced });
-    });
-  });
-
-  /* ---------- navbar state ---------- */
-  const nav = document.getElementById('nav');
-
-  ScrollTrigger.create({
-    start: 40,
-    end: 'max',
-    onToggle: (self) => nav.classList.toggle('nav--scrolled', self.isActive),
-  });
-
-  /* ---------- scroll progress bar ---------- */
-  gsap.to('.progress', {
-    scaleX: 1,
-    ease: 'none',
-    scrollTrigger: {
-      start: 0,
-      end: 'max',
-      scrub: 0.3,
-    },
-  });
-
-  /* ---------- cursor ---------- */
-  const cursor = document.getElementById('cursor');
-  const cursorDot = document.getElementById('cursorDot');
   const isFinePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 
-  if (isFinePointer) {
-    gsap.set([cursor, cursorDot], { xPercent: -50, yPercent: -50 });
+  /* ---------- localStorage без падений (приватный режим, запрет cookie) ---------- */
+  const storage = {
+    get(key) { try { return localStorage.getItem(key); } catch (e) { return null; } },
+    set(key, value) { try { localStorage.setItem(key, value); } catch (e) {} },
+    remove(key) { try { localStorage.removeItem(key); } catch (e) {} },
+  };
 
-    let cursorX = 0, cursorY = 0, dotX = 0, dotY = 0;
+  /* ---------- тема ---------- */
+  const themeToggle = $('#themeToggle');
+  if (themeToggle) {
+    themeToggle.addEventListener('click', () => {
+      const next = root.dataset.theme === 'dark' ? 'light' : 'dark';
+      root.dataset.theme = next;
+      if (storage.get('dg-consent') !== 'declined') storage.set('dg-theme', next);
+      themeToggle.setAttribute('aria-pressed', String(next === 'light'));
+      const meta = $('meta[name="theme-color"]');
+      if (meta) meta.setAttribute('content', next === 'light' ? '#faf9f7' : '#0d0a12');
+    });
+  }
+
+  /* ---------- уведомление о localStorage ---------- */
+  const cookieBanner = $('#cookieBanner');
+  if (cookieBanner) {
+    if (!storage.get('dg-consent')) {
+      cookieBanner.hidden = false;
+      root.classList.add('has-cookie');
+    }
+
+    const saveConsent = (value) => {
+      storage.set('dg-consent', value);
+      if (value === 'declined') storage.remove('dg-theme');
+      else storage.set('dg-theme', root.dataset.theme || 'dark');
+      cookieBanner.hidden = true;
+      root.classList.remove('has-cookie');
+    };
+
+    $('#cookieAccept')?.addEventListener('click', () => saveConsent('accepted'));
+    $('#cookieDecline')?.addEventListener('click', () => saveConsent('declined'));
+  }
+
+  /* ---------- счётчики дней: число считается сразу, анимация только поверх ---------- */
+  const statEls = $$('[data-date]');
+  const statTargets = new Map();
+  statEls.forEach((el) => {
+    const start = new Date(`${el.dataset.date}T00:00:00`).getTime();
+    const days = Number.isFinite(start) ? Math.max(0, Math.floor((Date.now() - start) / 86400000)) : 0;
+    statTargets.set(el, days);
+    el.textContent = String(days);
+  });
+
+  /* ---------- Lenis: только для мыши. На телефонах родной скролл (плавнее и дешевле) ---------- */
+  let lenis = null;
+  const hasGsap = Boolean(window.gsap && window.ScrollTrigger);
+  const canMotion = hasGsap && !prefersReduced;
+
+  if (window.Lenis && isFinePointer && !prefersReduced) {
+    lenis = new Lenis({
+      duration: 0.95,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      smoothWheel: true,
+    });
+    root.classList.add('lenis-active');
+
+    if (hasGsap) {
+      gsap.registerPlugin(ScrollTrigger);
+      lenis.on('scroll', ScrollTrigger.update);
+      gsap.ticker.add((time) => lenis.raf(time * 1000));
+      gsap.ticker.lagSmoothing(0);
+    } else {
+      const raf = (time) => { lenis.raf(time); requestAnimationFrame(raf); };
+      requestAnimationFrame(raf);
+    }
+  } else if (hasGsap) {
+    gsap.registerPlugin(ScrollTrigger);
+  }
+
+  const scrollToTarget = (target, offset = -90) => {
+    if (lenis) lenis.scrollTo(target, { offset, duration: 1 });
+    else {
+      const top = target.getBoundingClientRect().top + window.scrollY + offset;
+      window.scrollTo({ top: Math.max(0, top), behavior: prefersReduced ? 'auto' : 'smooth' });
+    }
+  };
+
+  const scrollToTop = () => {
+    if (lenis) lenis.scrollTo(0, { duration: 1 });
+    else window.scrollTo({ top: 0, behavior: prefersReduced ? 'auto' : 'smooth' });
+  };
+
+  /* ---------- мобильное меню ---------- */
+  const burger = $('#burger');
+  const mobileMenu = $('#mobileMenu');
+  const lockScroll = (locked) => {
+    root.classList.toggle('menu-open', locked);
+    if (lenis) (locked ? lenis.stop() : lenis.start());
+  };
+
+  const setMenu = (open, { restoreFocus = false } = {}) => {
+    if (!burger || !mobileMenu) return;
+    mobileMenu.classList.toggle('mobile-menu--open', open);
+    burger.classList.toggle('nav__burger--open', open);
+    burger.setAttribute('aria-expanded', String(open));
+    burger.setAttribute('aria-label', open ? 'закрыть меню' : 'открыть меню');
+    mobileMenu.inert = !open;
+    lockScroll(open);
+    if (open) mobileMenu.querySelector('a')?.focus({ preventScroll: true });
+    else if (restoreFocus) burger.focus({ preventScroll: true });
+  };
+
+  if (burger && mobileMenu) {
+    burger.addEventListener('click', () => setMenu(!mobileMenu.classList.contains('mobile-menu--open'), { restoreFocus: true }));
+    $$('a', mobileMenu).forEach((link) => link.addEventListener('click', () => setMenu(false)));
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && mobileMenu.classList.contains('mobile-menu--open')) setMenu(false, { restoreFocus: true });
+    });
+
+    /* если меню осталось открытым, а экран стал широким (поворот планшета), закрываем его */
+    window.matchMedia('(min-width: 1201px)').addEventListener('change', (e) => {
+      if (e.matches && mobileMenu.classList.contains('mobile-menu--open')) setMenu(false);
+    });
+  }
+
+  /* ---------- якорные ссылки ---------- */
+  $$('a[href^="#"]').forEach((link) => {
+    link.addEventListener('click', (e) => {
+      const href = link.getAttribute('href');
+      if (!href) return;
+      if (href === '#') {
+        e.preventDefault();
+        scrollToTop();
+        return;
+      }
+      const target = document.getElementById(href.slice(1));
+      if (!target) return;
+      e.preventDefault();
+      scrollToTarget(target);
+      history.replaceState(null, '', href);
+    });
+  });
+
+  /* ---------- UI от скролла: прогресс, шапка, кнопка «наверх». Без GSAP, работает всегда ---------- */
+  const nav = $('#nav');
+  const progress = $('.progress');
+  const toTop = $('#toTop');
+  let scrollTicking = false;
+
+  const updateScrollUi = () => {
+    scrollTicking = false;
+    const y = window.scrollY;
+    const max = Math.max(1, root.scrollHeight - window.innerHeight);
+    if (progress) progress.style.transform = `scaleX(${Math.min(1, y / max)})`;
+    if (nav) nav.classList.toggle('nav--scrolled', y > 40);
+    if (toTop) toTop.classList.toggle('to-top--visible', y > 320);
+  };
+
+  window.addEventListener('scroll', () => {
+    if (scrollTicking) return;
+    scrollTicking = true;
+    requestAnimationFrame(updateScrollUi);
+  }, { passive: true });
+  window.addEventListener('resize', updateScrollUi, { passive: true });
+  updateScrollUi();
+
+  toTop?.addEventListener('click', scrollToTop);
+
+  /* ---------- кастомный курсор (только мышь) ---------- */
+  const cursor = $('#cursor');
+  const cursorDot = $('#cursorDot');
+
+  if (isFinePointer && cursor && cursorDot && !prefersReduced) {
+    let targetX = -100, targetY = -100, ringX = -100, ringY = -100;
+    let cursorVisible = false;
+
+    const setVisible = (visible) => {
+      cursorVisible = visible;
+      cursor.style.opacity = visible ? '1' : '0';
+      cursorDot.style.opacity = visible ? '1' : '0';
+    };
 
     window.addEventListener('mousemove', (e) => {
-      cursorX = e.clientX;
-      cursorY = e.clientY;
-      gsap.to(cursor, { opacity: 1, duration: 0.15 });
-      gsap.to(cursorDot, { opacity: 1, duration: 0.15 });
-    });
-
-    gsap.ticker.add(() => {
-      cursorDot.style.transform = `translate(${cursorX}px, ${cursorY}px) translate(-50%, -50%)`;
-      gsap.to(cursor, {
-        x: cursorX,
-        y: cursorY,
-        duration: 0.35,
-        ease: 'power3.out',
-        overwrite: 'auto',
-      });
-    });
-
-    document.addEventListener('mouseleave', () => {
-      gsap.to([cursor, cursorDot], { opacity: 0, duration: 0.25 });
-    });
-
-    document.querySelectorAll('a, .btn, .card, [data-hover]').forEach((el) => {
-      el.addEventListener('mouseenter', () => cursor.classList.add('cursor--active'));
-      el.addEventListener('mouseleave', () => cursor.classList.remove('cursor--active'));
-    });
-  }
-
-  /* ---------- reveal helper ---------- */
-  document.querySelectorAll('[data-reveal]').forEach((el) => {
-    gsap.fromTo(
-      el,
-      { y: 22, opacity: 0 },
-      {
-        y: 0,
-        opacity: 1,
-        duration: 0.85,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: el,
-          start: 'top 88%',
-          toggleActions: 'play none none none',
-        },
+      targetX = e.clientX;
+      targetY = e.clientY;
+      if (!cursorVisible) {
+        ringX = targetX;
+        ringY = targetY;
+        setVisible(true);
       }
-    );
-  });
+    }, { passive: true });
 
-  /* ---------- hero entrance ---------- */
-  if (!prefersReduced && document.querySelector('.hero')) {
-    const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+    document.addEventListener('mouseleave', () => setVisible(false));
+    document.addEventListener('mouseenter', () => setVisible(true));
 
-    tl.to('.hero__line-inner', {
-      y: 0,
-      duration: 1.2,
-      stagger: 0.15,
-    })
-      .fromTo('.hero__badge', { y: -16, opacity: 0 }, { y: 0, opacity: 1, duration: 0.9 }, '-=0.9')
-      .fromTo('.hero__subtitle', { y: 22, opacity: 0 }, { y: 0, opacity: 1, duration: 0.85 }, '-=0.65')
-      .fromTo('.hero__actions', { y: 22, opacity: 0 }, { y: 0, opacity: 1, duration: 0.85 }, '-=0.6')
-      .fromTo('.hero__scroll', { opacity: 0 }, { opacity: 1, duration: 0.9 }, '-=0.45');
-
-    gsap.to('.hero__orb--1', {
-      x: 50, y: -35, duration: 10, ease: 'sine.inOut', yoyo: true, repeat: -1,
-    });
-    gsap.to('.hero__orb--2', {
-      x: -45, y: 45, duration: 12, ease: 'sine.inOut', yoyo: true, repeat: -1,
-    });
-    gsap.to('.hero__orb--3', {
-      x: 25, y: 25, scale: 1.1, duration: 9, ease: 'sine.inOut', yoyo: true, repeat: -1,
-    });
-
-    /* hero parallax out on scroll */
-    gsap.to('.hero__title, .hero__subtitle, .hero__badge', {
-      y: -60,
-      ease: 'none',
-      scrollTrigger: {
-        trigger: '.hero',
-        start: 'top top',
-        end: 'bottom 30%',
-        scrub: 0.9,
-      },
-    });
-  }
-
-  /* ---------- cards stagger ---------- */
-  gsap.utils.toArray('[data-card]').forEach((card, i) => {
-    gsap.fromTo(
-      card,
-      { y: 36, opacity: 0 },
-      {
-        y: 0,
-        opacity: 1,
-        duration: 0.85,
-        ease: 'power3.out',
-        onComplete: () => gsap.set(card, { clearProps: 'transform' }),
-        scrollTrigger: {
-          trigger: card,
-          start: 'top 88%',
-          toggleActions: 'play none none none',
-        },
-      }
-    );
-  });
-
-  /* ---------- phrase words ---------- */
-  if (document.querySelector('.phrase')) {
-    gsap.to('[data-reveal-word]', {
-      opacity: 1,
-      y: 0,
-      scale: 1,
-      duration: 0.55,
-      ease: 'power3.out',
-      stagger: 0.13,
-      scrollTrigger: {
-        trigger: '.phrase',
-        start: 'top 75%',
-        toggleActions: 'play none none none',
-      },
-    });
-  }
-
-  /* ---------- count-up stats ---------- */
-  document.querySelectorAll('[data-date]').forEach((el) => {
-    const start = new Date(el.dataset.date + 'T00:00:00').getTime();
-    const target = Math.max(0, Math.floor((Date.now() - start) / 86400000));
-
-    gsap.fromTo(
-      el,
-      { innerText: 0 },
-      {
-        innerText: target,
-        duration: 2.2,
-        ease: 'power2.out',
-        snap: { innerText: 1 },
-        scrollTrigger: {
-          trigger: el,
-          start: 'top 90%',
-          toggleActions: 'play none none none',
-          onEnter: () => {
-            gsap.fromTo(el, { scale: 0.88, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.75, ease: 'back.out(1.8)' });
-          },
-        },
-        onUpdate() {
-          el.textContent = Math.round(el.innerText);
-        },
-      }
-    );
-  });
-
-  /* ---------- faq accordion ---------- */
-  const faqItems = gsap.utils.toArray('.faq__item');
-
-  if (faqItems.length) {
-    const smooth = !prefersReduced;
-
-    const openItem = (item) => {
-      item.setAttribute('open', '');
-      if (!smooth) return;
-      const answer = item.querySelector('.faq__a');
-      if (!answer) return;
-      gsap.killTweensOf(answer);
-      gsap.fromTo(
-        answer,
-        { height: 0, opacity: 0, y: -6 },
-        { height: 'auto', opacity: 1, y: 0, duration: 0.6, ease: 'power3.out' }
-      );
+    const tick = () => {
+      ringX += (targetX - ringX) * 0.22;
+      ringY += (targetY - ringY) * 0.22;
+      cursor.style.transform = `translate3d(${ringX}px, ${ringY}px, 0) translate(-50%, -50%)`;
+      cursorDot.style.transform = `translate3d(${targetX}px, ${targetY}px, 0) translate(-50%, -50%)`;
+      requestAnimationFrame(tick);
     };
+    requestAnimationFrame(tick);
 
-    const closeItem = (item) => {
-      if (!smooth) { item.removeAttribute('open'); return; }
-      const answer = item.querySelector('.faq__a');
-      if (!answer) { item.removeAttribute('open'); return; }
-      gsap.killTweensOf(answer);
-      gsap.to(answer, {
-        height: 0,
-        opacity: 0,
-        y: -6,
-        duration: 0.38,
-        ease: 'power2.in',
-        onComplete: () => item.removeAttribute('open'),
-      });
-    };
-
-    faqItems.forEach((item) => {
-      const summary = item.querySelector('.faq__q');
-      if (!summary) return;
-
-      summary.addEventListener('click', (e) => {
-        e.preventDefault();
-        const wasOpen = item.hasAttribute('open');
-        faqItems.forEach((other) => {
-          if (other !== item && other.hasAttribute('open')) closeItem(other);
-        });
-        if (wasOpen) closeItem(item);
-        else openItem(item);
-      });
+    document.addEventListener('mouseover', (e) => {
+      cursor.classList.toggle('cursor--active', Boolean(e.target.closest('a, button, .card, [data-hover]')));
     });
-
-    if (smooth) {
-      gsap.set(faqItems.map((item) => item.querySelector('.faq__a')), { height: 0, opacity: 0 });
-
-      gsap.fromTo(
-        faqItems,
-        { y: 32, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 0.85,
-          ease: 'power3.out',
-          stagger: 0.1,
-          onComplete: () => gsap.set(faqItems, { clearProps: 'transform' }),
-          scrollTrigger: {
-            trigger: '.faq__list',
-            start: 'top 85%',
-            toggleActions: 'play none none none',
-          },
-        }
-      );
-    }
   }
 
-  /* ---------- spotlight ---------- */
+  /* ---------- подсветка карточек за курсором (только мышь) ---------- */
   if (isFinePointer && !prefersReduced) {
-    document.querySelectorAll('.card, .platform, .shot, .faq__item').forEach((el) => {
+    $$('.card, .platform, .shot, .faq__item').forEach((el) => {
       el.addEventListener('mousemove', (e) => {
         const r = el.getBoundingClientRect();
         el.style.setProperty('--mx', `${((e.clientX - r.left) / r.width) * 100}%`);
         el.style.setProperty('--my', `${((e.clientY - r.top) / r.height) * 100}%`);
+      }, { passive: true });
+    });
+  }
+
+  /* ---------- FAQ: нативный <details>, плавность добавляет GSAP ---------- */
+  const faqItems = $$('.faq__item');
+  if (faqItems.length) {
+    const smooth = canMotion;
+
+    const openItem = (item) => {
+      item.setAttribute('open', '');
+      if (!smooth) return;
+      const answer = $('.faq__a', item);
+      if (!answer) return;
+      gsap.killTweensOf(answer);
+      gsap.fromTo(answer,
+        { height: 0, opacity: 0, y: -6 },
+        { height: 'auto', opacity: 1, y: 0, duration: 0.55, ease: 'power3.out', onComplete: () => gsap.set(answer, { clearProps: 'height' }) });
+    };
+
+    const closeItem = (item) => {
+      const answer = $('.faq__a', item);
+      if (!smooth || !answer) { item.removeAttribute('open'); return; }
+      gsap.killTweensOf(answer);
+      gsap.to(answer, {
+        height: 0, opacity: 0, y: -6, duration: 0.35, ease: 'power2.in',
+        onComplete: () => { item.removeAttribute('open'); gsap.set(answer, { clearProps: 'all' }); },
+      });
+    };
+
+    faqItems.forEach((item) => {
+      const summary = $('.faq__q', item);
+      if (!summary) return;
+      summary.addEventListener('click', (e) => {
+        e.preventDefault();
+        const wasOpen = item.hasAttribute('open');
+        faqItems.forEach((other) => { if (other !== item && other.hasAttribute('open')) closeItem(other); });
+        if (wasOpen) closeItem(item);
+        else openItem(item);
       });
     });
   }
 
-  /* ---------- back to top ---------- */
-  const toTop = document.getElementById('toTop');
+  /* ---------- дальше только анимации. При reduced-motion или без GSAP контент просто виден ---------- */
+  if (!canMotion) return;
 
-  if (toTop) {
+  root.classList.add('motion-ready');
+
+  /* ---------- появление блоков ---------- */
+  $$('[data-reveal]').forEach((el) => {
+    gsap.fromTo(el,
+      { y: 22, opacity: 0 },
+      {
+        y: 0, opacity: 1, duration: 0.85, ease: 'power3.out',
+        scrollTrigger: { trigger: el, start: 'top 90%', toggleActions: 'play none none none' },
+      });
+  });
+
+  /* ---------- hero: запускается только когда исчез загрузчик ---------- */
+  if ($('.hero')) {
+    const tl = gsap.timeline({ paused: true, defaults: { ease: 'power3.out' } });
+
+    tl.to('.hero__line-inner', { y: 0, duration: 1.1, stagger: 0.14 })
+      .fromTo('.hero__badge', { y: -16, opacity: 0 }, { y: 0, opacity: 1, duration: 0.8 }, '-=0.9')
+      .fromTo('.hero__subtitle', { y: 22, opacity: 0 }, { y: 0, opacity: 1, duration: 0.8 }, '-=0.65')
+      .fromTo('.hero__actions', { y: 22, opacity: 0 }, { y: 0, opacity: 1, duration: 0.8 }, '-=0.6')
+      .fromTo('.hero__scroll', { opacity: 0 }, { opacity: 1, duration: 0.8 }, '-=0.45');
+
+    if (window.dgReady) tl.play();
+    else document.addEventListener('dg:ready', () => tl.play(), { once: true });
+
+    /* мягкий выезд hero при скролле */
+    gsap.to('.hero__title, .hero__subtitle, .hero__badge', {
+      y: -50, ease: 'none',
+      scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom 30%', scrub: 0.9 },
+    });
+  }
+
+  /* ---------- карточки ---------- */
+  $$('[data-card]').forEach((card) => {
+    gsap.fromTo(card,
+      { y: 32, opacity: 0 },
+      {
+        y: 0, opacity: 1, duration: 0.8, ease: 'power3.out',
+        onComplete: () => gsap.set(card, { clearProps: 'transform,opacity' }),
+        scrollTrigger: { trigger: card, start: 'top 92%', toggleActions: 'play none none none' },
+      });
+  });
+
+  /* ---------- большая фраза ---------- */
+  if ($('.phrase')) {
+    gsap.to('[data-reveal-word]', {
+      opacity: 1, y: 0, scale: 1, duration: 0.55, ease: 'power3.out', stagger: 0.12,
+      scrollTrigger: { trigger: '.phrase', start: 'top 80%', toggleActions: 'play none none none' },
+    });
+  }
+
+  /* ---------- счётчики ---------- */
+  statEls.forEach((el) => {
+    const target = statTargets.get(el) || 0;
+    const counter = { value: 0 };
+    el.textContent = '0';
+
     ScrollTrigger.create({
-      start: 320,
-      end: 'max',
-      onToggle: (self) => toTop.classList.toggle('to-top--visible', self.isActive),
+      trigger: el,
+      start: 'top 92%',
+      once: true,
+      onEnter: () => {
+        gsap.fromTo(el, { scale: 0.88, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.7, ease: 'back.out(1.8)' });
+        gsap.to(counter, {
+          value: target, duration: 2, ease: 'power2.out',
+          onUpdate: () => { el.textContent = String(Math.round(counter.value)); },
+          onComplete: () => { el.textContent = String(target); },
+        });
+      },
+    });
+  });
+
+  /* ---------- FAQ: появление списка ---------- */
+  if (faqItems.length) {
+    gsap.fromTo(faqItems,
+      { y: 28, opacity: 0 },
+      {
+        y: 0, opacity: 1, duration: 0.8, ease: 'power3.out', stagger: 0.08,
+        onComplete: () => gsap.set(faqItems, { clearProps: 'transform,opacity' }),
+        scrollTrigger: { trigger: '.faq__list', start: 'top 88%', toggleActions: 'play none none none' },
+      });
+  }
+
+  /* ---------- футер ---------- */
+  gsap.fromTo('.footer',
+    { y: 28, opacity: 0 },
+    {
+      y: 0, opacity: 1, duration: 1, ease: 'power3.out',
+      onComplete: () => gsap.set('.footer', { clearProps: 'transform,opacity' }),
+      scrollTrigger: { trigger: '.footer', start: 'top 95%', toggleActions: 'play none none none' },
     });
 
-    toTop.addEventListener('click', () => lenis.scrollTo(0, { duration: 1, immediate: prefersReduced }));
-  }
-
-  /* ---------- footer reveal ---------- */
-  gsap.fromTo(
-    '.footer',
-    { y: 32, opacity: 0 },
-    {
-      y: 0,
-      opacity: 1,
-      duration: 1.1,
-      ease: 'power3.out',
-      scrollTrigger: {
-        trigger: '.footer',
-        start: 'top 92%',
-        toggleActions: 'play none none none',
-      },
-    }
-  );
-
-  /* ---------- refresh ---------- */
-  ScrollTrigger.refresh();
-
-  if (prefersReduced) {
-    gsap.set('[data-reveal], [data-card], [data-reveal-word], .hero__line-inner', { clearProps: 'all', opacity: 1, transform: 'none' });
-  }
+  /* ---------- пересчёт позиций после шрифтов, картинок и возврата из bfcache ---------- */
+  const refresh = () => ScrollTrigger.refresh();
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(refresh);
+  window.addEventListener('load', refresh, { once: true });
+  window.addEventListener('pageshow', (event) => { if (event.persisted) refresh(); });
+  refresh();
 })();

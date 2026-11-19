@@ -1,5 +1,5 @@
-import * as THREE from 'three';
-import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+import * as THREE from './vendor/three/three.module.min.js';
+import { RoomEnvironment } from './vendor/three/addons/environments/RoomEnvironment.js';
 
 /* =====================================================================
    НАСТРОЙКИ СВОЕЙ МОДЕЛИ
@@ -12,7 +12,7 @@ import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
    screen / display / lcd / oled / panel).
    Если скрин на экране перевёрнут — меняй эти три параметра.
    ===================================================================== */
-const MODEL_FILES = ['models/phone.glb', 'models/phone.gltf', 'models/phone.fbx'];
+const MODEL_FILES = ['/models/phone.glb'];
 const SCREEN_FLIP_Y = true; // для твоей модели iPhone 13 Pro Max нужен true. null = авто (glb: false, fbx: true)
 const SCREEN_ROTATE = 0; // поворот скрина в радианах: Math.PI / 2, Math.PI ...
 const SCREEN_MIRROR_X = false; // true, если скрин отзеркален
@@ -25,6 +25,7 @@ function init() {
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (reduced) {
     canvas.remove();
+    document.documentElement.classList.remove('has-phone');
     return;
   }
 
@@ -39,6 +40,7 @@ function init() {
     });
   } catch (err) {
     canvas.remove();
+    document.documentElement.classList.remove('has-phone');
     return;
   }
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
@@ -137,11 +139,7 @@ function init() {
       try {
         const head = await fetch(url, { method: 'HEAD' });
         if (!head.ok) continue;
-        if (url.endsWith('.fbx')) {
-          const { FBXLoader } = await import('three/addons/loaders/FBXLoader.js');
-          return { root: await new FBXLoader().loadAsync(url), fbx: true, url };
-        }
-        const { GLTFLoader } = await import('three/addons/loaders/GLTFLoader.js');
+        const { GLTFLoader } = await import('./vendor/three/addons/loaders/GLTFLoader.js');
         const gltf = await new GLTFLoader().loadAsync(url);
         return { root: gltf.scene, fbx: false, url };
       } catch (err) {
